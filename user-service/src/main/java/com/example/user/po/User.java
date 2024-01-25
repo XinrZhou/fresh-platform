@@ -32,7 +32,7 @@ public class User {
     private  String password;
     @JsonIgnore
     private int role;
-    private String phone;
+    private String phoneNumber;
     // 是否VIP  1 是 0 否
     private Integer isVip;
     private BigDecimal balance;

@@ -1,7 +1,9 @@
 package com.example.gateway.filter;
 
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.example.common.exception.Code;
 import com.example.common.exception.XException;
+import com.example.common.vo.RequestAttributeConstant;
 import com.example.gateway.utils.JwtUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,6 +25,7 @@ import java.util.List;
 public class LoginFilter implements WebFilter {
 
     private final JwtUtils jwtUtils;
+    private final ResponseHelper responseHelper;
 
     private final List<String> excludes = List.of("/api/login");
     private final List<String> includes = List.of("/api/");
@@ -40,14 +43,14 @@ public class LoginFilter implements WebFilter {
                 return chain.filter(exchange);
             }
         }
-        String token = request.getHeaders().getFirst("authorization");
+        String token = request.getHeaders().getFirst(RequestAttributeConstant.TOKEN);
         if (token == null) {
-           throw new XException(401, "未登录");
+           return responseHelper.response(Code.UNAUTHORIZED, exchange);
         }
 
         DecodedJWT decode = jwtUtils.decode(token);
-        exchange.getAttributes().put("uid", decode.getClaim("uid").asLong());
-        exchange.getAttributes().put("role", decode.getClaim("role").asInt());
+        exchange.getAttributes().put(RequestAttributeConstant.UID, decode.getClaim(RequestAttributeConstant.UID).asLong());
+        exchange.getAttributes().put(RequestAttributeConstant.ROLE, decode.getClaim(RequestAttributeConstant.ROLE).asInt());
         return chain.filter(exchange);
     }
 }

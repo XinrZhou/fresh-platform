@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.ReadOnlyProperty;
 
 import java.time.LocalDateTime;
 
@@ -26,10 +27,12 @@ public class Address {
     private String city;
     private String town;
     private String street;
-    private String phone;
+    private String phoneNumber;
     private String contact;
     // 是否默认 1 默认 0 否
     private Integer isDefault;
+    @ReadOnlyProperty
     private LocalDateTime insertTime;
+    @ReadOnlyProperty
     private LocalDateTime updateTime;
 }

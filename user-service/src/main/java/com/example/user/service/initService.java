@@ -34,7 +34,7 @@ public class initService {
                             .userName(userName)
                             .password(encoder.encode(pwd))
                             .role(User.ADMIN)
-                            .phone(phone)
+                            .phoneNumber(phone)
                             .insertTime(LocalDateTime.now())
                             .updateTime(LocalDateTime.now())
                             .build();

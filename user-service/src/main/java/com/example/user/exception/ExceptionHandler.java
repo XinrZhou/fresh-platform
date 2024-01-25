@@ -1,6 +1,7 @@
-package com.example.common.exception;
+package com.example.user.exception;
 
 
+import com.example.common.exception.XException;
 import com.example.common.vo.ResultVO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;

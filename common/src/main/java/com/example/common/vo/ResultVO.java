@@ -1,5 +1,6 @@
 package com.example.common.vo;
 
+import com.example.common.exception.Code;
 import lombok.Builder;
 import lombok.Data;
 
@@ -21,5 +22,9 @@ public class ResultVO {
 
     public static ResultVO error(int code, String msg) {
         return ResultVO.builder().code(code).message(msg).build();
+    }
+
+    public static ResultVO error(Code code) {
+        return ResultVO.builder().code(code.getCode()).message(code.getMessage()).build();
     }
 }

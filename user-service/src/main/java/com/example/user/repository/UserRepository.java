@@ -11,4 +11,6 @@ public interface UserRepository extends ReactiveCrudRepository<User, Long> {
 
     @Query("select * from user u where u.phone=:phone;")
     Mono<User> find(String phone);
+
+    Mono<User> findByPhoneNumber(String phoneNumber);
 }
