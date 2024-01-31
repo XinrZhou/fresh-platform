@@ -11,25 +11,23 @@ import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
 import java.util.Map;
 
 @Api(tags = "用户相关接口")
 @RestController
-@RequestMapping("/users/")
+@RequestMapping("/users")
 @RequiredArgsConstructor
+@CrossOrigin
 public class UserController {
 
     private final UserService userService;
     private final PasswordEncoder encoder;
     private final JwtUtils jwtUtils;
 
-    @PostMapping("login")
+    @PostMapping("/login")
     public Mono<ResultVO> login(@RequestBody User user, ServerHttpResponse response) {
         return userService.getUserByPhoneNumber(user.getPhoneNumber())
                 .filter(u -> encoder.matches(user.getPassword(), u.getPassword()))
@@ -40,9 +38,9 @@ public class UserController {
                     response.getHeaders().add(RequestAttributeConstant.TOKEN, token);
 
                     String role = switch (u.getRole()) {
-                        case User.ADMIN -> "AdMin";
-                        case User.BUSINESS -> "BusiNess";
-                        case User.CONSUMER -> "ConSumer";
+                        case User.ADMIN -> "Vo10t";
+                        case User.BUSINESS -> "cA1KL";
+                        case User.CONSUMER -> "sfYaT";
                         default -> "";
                     };
                     response.getHeaders().add(RequestAttributeConstant.ROLE, role);
@@ -51,7 +49,7 @@ public class UserController {
                 .defaultIfEmpty(ResultVO.error(Code.LOGIN_ERROR));
     }
 
-    @PostMapping("register")
+    @PostMapping("/register")
     public Mono<ResultVO> register(@RequestBody User user) {
         return userService.addUser(user).map(r -> ResultVO.success(Map.of()));
     }

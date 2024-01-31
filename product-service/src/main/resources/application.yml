@@ -1,13 +1,13 @@
+
 server:
-  port: 8082
+  port: 8083
 spring:
   application:
-    name: user-service
-  cloud:
-    nacos:
-      server-addr: 124.223.175.150:8848
+    name: product-service
+  profiles:
+    active: dev
   r2dbc:
-    url: r2dbcs:mysql://124.223.175.150:3309/user-service?serverTimezone=Asia/Shanghai
+    url: r2dbcs:mysql://124.223.175.150:3309/product-service?serverTimezone=Asia/Shanghai
     username: root
     password: 1157
     pool:
@@ -30,5 +30,3 @@ logging:
   pattern:
     console: '%-5level %C.%M[%line] - %msg%n'
 
-my:
-  secretKey: dldkshfpojoi42zxr
