@@ -5,7 +5,7 @@ create table if not exists `category`
 (
     id            bigint(19)   not null primary key,
     category_name varchar(128) not null,
-    parent_id     bigint(19)   not null comment '父类id，根类目为0',
+    parent_id     bigint(19)   not null default comment '父类id，根类目为0',
     is_parent     tinyint(1)   not null comment '是否为父节点，0否，1是',
     insert_time   datetime     not null default current_timestamp,
     update_time   datetime     not null default current_timestamp on update current_timestamp,

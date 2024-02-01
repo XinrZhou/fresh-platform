@@ -16,6 +16,9 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Builder
 public class Category {
+    public static final int PARENT = 1;
+    public static final int CHILD = 0;
+
     @Id
     @CreatedBy
     @JsonFormat(shape = JsonFormat.Shape.STRING)

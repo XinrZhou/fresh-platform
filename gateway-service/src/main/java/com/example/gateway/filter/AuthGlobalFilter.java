@@ -27,14 +27,13 @@ public class AuthGlobalFilter implements GlobalFilter {
     private final ResponseHelper responseHelper;
 
     private final List<String> excludes = List.of("/users/login");
-    private final List<String> includes = List.of("/test");
+    private final List<String> includes = List.of("/category");
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         ServerHttpRequest request = exchange.getRequest();
 
         for (String excludeP : excludes) {
-            System.out.println("test===" + request.getPath().pathWithinApplication().value());
             if (request.getPath().pathWithinApplication().value().equals(excludeP)) {
                 return chain.filter(exchange);
             }

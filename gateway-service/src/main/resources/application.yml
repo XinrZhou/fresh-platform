@@ -18,9 +18,9 @@ spring:
           predicates:
             - Path=/users/**
         - id: product-service
-          uri: http://localhost:8083
+          uri: lb://product-service
           predicates:
-            - Path=/products/**
+            - Path=/category/**
 
 logging:
   level:
