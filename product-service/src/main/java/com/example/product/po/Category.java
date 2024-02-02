@@ -24,6 +24,7 @@ public class Category {
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long id;
     private String categoryName;
+    private String imageUrl;
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long parentId;
     private Integer isParent;

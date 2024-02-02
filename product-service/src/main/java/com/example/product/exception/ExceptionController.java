@@ -1,4 +1,4 @@
-package com.example.user.exception;
+package com.example.product.exception;
 
 
 import com.example.common.exception.Code;

@@ -27,7 +27,7 @@ public class AuthGlobalFilter implements GlobalFilter {
     private final ResponseHelper responseHelper;
 
     private final List<String> excludes = List.of("/users/login");
-    private final List<String> includes = List.of("/category");
+    private final List<String> includes = List.of("/category", "/oss");
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {

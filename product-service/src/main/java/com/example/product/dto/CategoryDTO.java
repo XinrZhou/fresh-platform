@@ -18,7 +18,11 @@ public class CategoryDTO {
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long id;
     private String categoryName;
+    private String imageUrl;
+    private Integer isParent;
     private String parentName;
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
+    private Long parentId;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
     private LocalDateTime updateTime;
 }

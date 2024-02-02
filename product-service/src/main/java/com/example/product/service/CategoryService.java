@@ -1,5 +1,7 @@
 package com.example.product.service;
 
+import com.example.common.exception.Code;
+import com.example.common.exception.XException;
 import com.example.product.po.Category;
 import com.example.product.repository.CategoryRepository;
 import lombok.RequiredArgsConstructor;
@@ -31,5 +33,13 @@ public class CategoryService {
 
     public Mono<List<Category>> listCategories() {
         return categoryRepository.findAll().collectList();
+    }
+
+    public Mono<Void> deleteCategory(long cid) {
+        return categoryRepository.findCountByParentId(cid)
+                .filter(c -> c == 0)
+                .switchIfEmpty(Mono.error(new XException(XException.BAD_REQUEST, "存在子类目，无法删除")))
+                .flatMap(c -> categoryRepository.deleteById(cid))
+                .then();
     }
 }

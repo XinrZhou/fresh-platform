@@ -11,8 +11,6 @@ import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -45,11 +43,17 @@ public class CategoryController {
                             categoryDTO.setId(category.getId());
                             categoryDTO.setCategoryName(category.getCategoryName());
                             categoryDTO.setUpdateTime(category.getUpdateTime());
+                            categoryDTO.setImageUrl(category.getImageUrl());
+                            categoryDTO.setIsParent(category.getIsParent());
 
                             if (category.getIsParent() != Category.PARENT) {
                                 return categoryService.getCategory(category.getParentId())
                                         .filter(Objects::nonNull)
-                                        .map(c -> categoryDTO.setParentName(c.getCategoryName()))
+                                        .map(c -> {
+                                            categoryDTO.setParentName(c.getCategoryName());
+                                            categoryDTO.setParentId(c.getParentId());
+                                            return c;
+                                        })
                                         .thenReturn(categoryDTO);
                             }
 
@@ -58,6 +62,12 @@ public class CategoryController {
                         .collectList()
                         .map(categoryDTOList -> ResultVO.success(Map.of("categories", categoryDTOList)))
                 );
+    }
+
+    @DeleteMapping("/category/{cid}")
+    public Mono<ResultVO> deleteCategory(@PathVariable long cid) {
+        return categoryService.deleteCategory(cid)
+                .then(Mono.just(ResultVO.success(Map.of())));
     }
 
 }
