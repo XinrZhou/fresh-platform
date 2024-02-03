@@ -9,7 +9,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
-import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.stereotype.Component;
@@ -27,7 +26,7 @@ public class AuthGlobalFilter implements GlobalFilter {
     private final ResponseHelper responseHelper;
 
     private final List<String> excludes = List.of("/users/login");
-    private final List<String> includes = List.of("/category", "/oss");
+    private final List<String> includes = List.of("/");
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
@@ -51,8 +50,10 @@ public class AuthGlobalFilter implements GlobalFilter {
         }
 
         DecodedJWT decode = jwtUtils.decode(token);
-        exchange.getAttributes().put(RequestAttributeConstant.UID, decode.getClaim(RequestAttributeConstant.UID).asLong());
-        exchange.getAttributes().put(RequestAttributeConstant.ROLE, decode.getClaim(RequestAttributeConstant.ROLE).asInt());
+        exchange.getResponse().getHeaders().add(RequestAttributeConstant.UID, decode.getClaim(RequestAttributeConstant.UID).asLong().toString());
+//        exchange.getAttributes().put(RequestAttributeConstant.UID, decode.getClaim(RequestAttributeConstant.UID).asLong());
+//        exchange.getAttributes().put(RequestAttributeConstant.ROLE, decode.getClaim(RequestAttributeConstant.ROLE).asInt());
+        System.out.println("test==="+exchange.getResponse().getHeaders().getFirst(RequestAttributeConstant.UID));
         return chain.filter(exchange);
     }
 

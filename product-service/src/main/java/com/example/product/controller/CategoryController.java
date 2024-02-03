@@ -22,7 +22,7 @@ import java.util.Objects;
 public class CategoryController {
     private final CategoryService categoryService;
 
-    @PostMapping("/category")
+    @PostMapping("/categories")
     public Mono<ResultVO> postCategory(@RequestBody Category category) {
         return categoryService.addCategory(category).map(r -> ResultVO.success(Map.of()));
     }
@@ -45,13 +45,13 @@ public class CategoryController {
                             categoryDTO.setUpdateTime(category.getUpdateTime());
                             categoryDTO.setImageUrl(category.getImageUrl());
                             categoryDTO.setIsParent(category.getIsParent());
+                            categoryDTO.setParentId(category.getParentId());
 
                             if (category.getIsParent() != Category.PARENT) {
                                 return categoryService.getCategory(category.getParentId())
                                         .filter(Objects::nonNull)
                                         .map(c -> {
                                             categoryDTO.setParentName(c.getCategoryName());
-                                            categoryDTO.setParentId(c.getParentId());
                                             return c;
                                         })
                                         .thenReturn(categoryDTO);

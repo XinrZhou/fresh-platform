@@ -28,11 +28,10 @@ public class Spu {
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long cid2;
     @JsonFormat(shape = JsonFormat.Shape.STRING)
-    private Long cid3;
-    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long brandId;
     // 是否上架 0否 1是
     private Integer saleStatus;
+    private String description;
     @ReadOnlyProperty
     private LocalDateTime insertTime;
     @ReadOnlyProperty

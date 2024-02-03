@@ -1,6 +1,5 @@
 package com.example.product.service;
 
-import com.example.common.exception.Code;
 import com.example.common.exception.XException;
 import com.example.product.po.Category;
 import com.example.product.repository.CategoryRepository;

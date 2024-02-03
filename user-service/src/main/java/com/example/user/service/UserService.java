@@ -20,7 +20,11 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final JwtUtils jwtUtils;
 
-    public Mono<User> getUserByPhoneNumber(String phoneNumber) {
+    public Mono<User> getUser(Long uid) {
+        return userRepository.findById(uid);
+    }
+
+    public Mono<User> getUser(String phoneNumber) {
         return userRepository.findByPhoneNumber(phoneNumber);
     }
 

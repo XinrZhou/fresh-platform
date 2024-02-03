@@ -1,5 +1,6 @@
 package com.example.product.po;
 
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,19 +12,18 @@ import org.springframework.data.annotation.ReadOnlyProperty;
 
 import java.time.LocalDateTime;
 
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class SpuDetail {
+public class SpecificationGroup {
     @Id
     @CreatedBy
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long id;
     @JsonFormat(shape = JsonFormat.Shape.STRING)
-    private Long spuId;
-    private String description;
+    private Long categoryId;
+    private String groupName;
     @ReadOnlyProperty
     private LocalDateTime insertTime;
     @ReadOnlyProperty

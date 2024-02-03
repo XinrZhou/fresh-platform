@@ -20,6 +20,7 @@ public class ExceptionController {
 
     @ExceptionHandler(Exception.class)
     public Mono<ResultVO> handleException(Exception exception) {
+        System.out.println(exception);
         return Mono.just(ResultVO.error(400, "请求错误"));
     }
 

@@ -32,6 +32,8 @@ public class User {
     private  String password;
     @JsonIgnore
     private int role;
+    // 商家状态，审核中0，审核通过1，审核未通过2，注销3
+    private Integer status;
     private String phoneNumber;
     // 是否VIP  1 是 0 否
     private Integer isVip;

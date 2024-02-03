@@ -32,7 +32,7 @@ create table if not exists `category_brand` (
     unique (category_id, brand_id)
 ) comment = '品牌类目表';
 
-create table if not exists `spec_group` (
+create table if not exists `specification_group` (
     id           bigint(19)   not null primary key,
     category_id  bigint(19)   not null,
     group_name   varchar(128) not null,
@@ -40,7 +40,7 @@ create table if not exists `spec_group` (
     update_time  datetime     not null default current_timestamp on update current_timestamp
 ) comment = '规格参数分组表';
 
-create table if not exists `spec_param` (
+create table if not exists `specification_param` (
     id          bigint(19)   not null primary key,
     category_id bigint(19)   not null,
     group_id    bigint(19)   not null,
@@ -58,23 +58,14 @@ create table if not exists `spu` (
     sub_title   varchar(256) default '',
     cid1        bigint(19)   not null,
     cid2        bigint(19)   not null,
-    cid3        bigint(19)   not null,
     brand_id    bigint(19)   not null,
     sale_status tinyint(1)   not null default '1' comment '是否上架，0下架，1上架',
+    description text,
     insert_time datetime     not null default current_timestamp,
     update_time datetime     not null default current_timestamp on update current_timestamp,
 
-    unique (cid1, cid2, cid3)
+    unique (cid1, cid2)
 ) comment = 'SPU';
-
-create table if not exists `spu_detail` (
-    id           bigint(19)  not null primary key,
-    spu_id       bigint(19)  not null,
-    description  text        not null,
-    insert_time  datetime    not null default current_timestamp,
-    update_time  datetime    not null default current_timestamp on update current_timestamp
-) comment = 'SPU详情';
-
 
 create table if not exists `sku`(
     id             bigint(19)     not null primary key,
