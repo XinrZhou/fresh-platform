@@ -24,15 +24,7 @@ public class UserService {
         return userRepository.findById(uid);
     }
 
-    public Mono<User> getUser(String phoneNumber) {
-        return userRepository.findByPhoneNumber(phoneNumber);
-    }
-
-    public Mono<Void> addUser(User user) {
-        if(user.getRole() == User.CONSUMER) {
-            user.setBalance(new BigDecimal(0));
-        }
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        return userRepository.save(user).then();
+    public Mono<User> getUser(String number) {
+        return userRepository.findByNumber(number);
     }
 }

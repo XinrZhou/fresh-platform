@@ -31,7 +31,7 @@ public class UserController {
 
     @PostMapping("/login")
     public Mono<ResultVO> login(@RequestBody User user, ServerHttpResponse response) {
-        return userService.getUser(user.getPhoneNumber())
+        return userService.getUser(user.getNumber())
                 .filter(u -> encoder.matches(user.getPassword(), u.getPassword()))
                 .map(u -> {
                     Map<String, Object> tokenM = Map.of(RequestAttributeConstant.UID, u.getId(),
@@ -42,7 +42,7 @@ public class UserController {
 
                     String role = switch (u.getRole()) {
                         case User.ADMIN -> "Vo10t";
-                        case User.BUSINESS -> "cA1KL";
+                        case User.SUPPLIER -> "cA1KL";
                         case User.CONSUMER -> "sfYaT";
                         default -> "";
                     };

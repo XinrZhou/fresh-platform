@@ -20,8 +20,8 @@ import java.util.Map;
 public class AdminController {
     private final AdminService adminService;
 
-    @PostMapping("/business")
-    public Mono<ResultVO> postBusiness(@RequestBody User user) {
+    @PostMapping("/supplier")
+    public Mono<ResultVO> postSupplier(@RequestBody User user) {
         return adminService.addUser(user).map(r -> ResultVO.success(Map.of()));
     }
 }

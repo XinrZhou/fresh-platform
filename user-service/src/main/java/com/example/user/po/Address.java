@@ -23,10 +23,8 @@ public class Address {
     private Long id;
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long userId;
-    private String province;
-    private String city;
-    private String town;
-    private String street;
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
+    private Long rdcId;
     private String phoneNumber;
     private String contact;
     // 是否默认 1 默认 0 否

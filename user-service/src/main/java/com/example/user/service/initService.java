@@ -24,17 +24,15 @@ public class initService {
     @Transactional
     @EventListener(classes = ApplicationReadyEvent.class)
     public Mono<Void> onApplicationEvent() {
-        String userName = "admin";
-        String pwd = "20021228";
-        String phone = "18312345678";
         return userRepository.count()
                 .filter(r -> r == 0)
                 .flatMap(r -> {
+                    String number = "18312345678";
                     User admin = User.builder()
-                            .userName(userName)
-                            .password(encoder.encode(pwd))
+                            .name("admin")
+                            .number(number)
+                            .password(encoder.encode(number))
                             .role(User.ADMIN)
-                            .phoneNumber(phone)
                             .insertTime(LocalDateTime.now())
                             .updateTime(LocalDateTime.now())
                             .build();
