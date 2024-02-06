@@ -31,6 +31,7 @@ public class CategoryService {
     }
 
     public Mono<List<Category>> listCategories() {
+//        return categoryRepository.findAllParents().collectList();
         return categoryRepository.findAll().collectList();
     }
 

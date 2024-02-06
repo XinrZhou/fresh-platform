@@ -20,4 +20,13 @@ public class RdcService {
     public Mono<List<Rdc>> listRdcs() {
         return rdcRepository.findAll().collectList();
     }
+
+    public Mono<Rdc> getRdc(Long rid) {
+        return rdcRepository.findById(rid);
+    }
+
+    public Mono<Void> deleteRdc(Long rid) {
+        return rdcRepository.deleteById(rid).then();
+    }
+
 }

@@ -16,7 +16,7 @@ spring:
         - id: user-service
           uri: lb://user-service
           predicates:
-            - Path=/users/**, /rdc/**
+            - Path=/users/**, /rdc/**, /supplier/**
         - id: product-service
           uri: lb://product-service
           predicates:

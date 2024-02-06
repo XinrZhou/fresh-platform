@@ -3,7 +3,7 @@ use `product-service`;
 create table if not exists `category`
 (
     id             bigint(19)   not null primary key,
-    category_name  varchar(128) not null,
+    name  varchar(128) not null,
     image_url      mediumtext   not null comment '类目图片',
     parent_id      bigint(19)   not null default 0 comment '父类id，根类目为0',
     is_parent      tinyint(1)   not null comment '是否为父节点，0否，1是',
@@ -11,7 +11,7 @@ create table if not exists `category`
     update_time    datetime     not null default current_timestamp on update current_timestamp,
 
     index (parent_id),
-    unique(category_name, parent_id)
+    unique(name, parent_id)
 ) comment = '商品类目表';
 
 create table if not exists `brand` (

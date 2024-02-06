@@ -1,11 +1,10 @@
-package com.example.product.dto;
+package com.example.user.vo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.experimental.Accessors;
 
 import java.time.LocalDateTime;
 
@@ -13,16 +12,15 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Accessors(chain = true)
-public class CategoryDTO {
+public class UserVO {
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long id;
-    private String categoryName;
-    private String imageUrl;
-    private Integer isParent;
-    private String parentName;
+    private String name;
+    private String number;
     @JsonFormat(shape = JsonFormat.Shape.STRING)
-    private Long parentId;
+    private Long rdcId;
+    private String rdcName;
+    private Integer shopStatus;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
     private LocalDateTime updateTime;
 }
