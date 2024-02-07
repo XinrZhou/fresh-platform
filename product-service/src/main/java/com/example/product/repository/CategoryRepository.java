@@ -17,13 +17,5 @@ public interface CategoryRepository extends ReactiveCrudRepository<Category, Lon
     @Query("select count(*) from category c where c.parent_id=:pid")
     Mono<Integer> findCountByParentId(long pid);
 
-    @Query(
-            "WITH RECURSIVE CategoryPath AS (" +
-                    "  SELECT id, name, parent_id FROM category WHERE parent_id = 0" + // 查询根节点
-                    "  UNION ALL" +
-                    "  SELECT c.id, c.name, c.parent_id FROM category c JOIN CategoryPath cp ON c.id = cp.parent_id" +
-                    ")" +
-                    "SELECT id, name FROM CategoryPath"
-    )
-    Flux<Category> findAllParents();
+    Flux<Category> findByParentId(long pid);
 }
