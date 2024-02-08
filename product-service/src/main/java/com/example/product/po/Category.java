@@ -16,8 +16,9 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Builder
 public class Category {
-    public static final int PARENT = 1;
-    public static final int CHILD = 0;
+    public static final int FIRST = 1;
+    public static final int SECOND = 2;
+    public static final int THIRD = 3;
 
     @Id
     @CreatedBy
@@ -27,7 +28,8 @@ public class Category {
     private String imageUrl;
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long parentId;
-    private Integer isParent;
+    private Integer level;
+    private Integer status; // 0未启用 1使用中
     @ReadOnlyProperty
     private LocalDateTime insertTime;
     @ReadOnlyProperty

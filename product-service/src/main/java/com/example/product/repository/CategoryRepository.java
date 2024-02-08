@@ -11,11 +11,13 @@ import reactor.core.publisher.Mono;
 @Repository
 public interface CategoryRepository extends ReactiveCrudRepository<Category, Long> {
 
-    @Query("select * from category c where c.is_parent=:isParent")
-    Flux<Category> list(int isParent);
+//    @Query("select * from category c where c.is_parent=:isParent")
+//    Flux<Category> list(int isParent);
 
     @Query("select count(*) from category c where c.parent_id=:pid")
     Mono<Integer> findCountByParentId(long pid);
 
     Flux<Category> findByParentId(long pid);
+
+    Flux<Category> findByLevel(int level);
 }

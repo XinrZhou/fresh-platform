@@ -14,7 +14,6 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Accessors(chain = true)
 public class CategoryDTO {
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long id;
@@ -22,6 +21,8 @@ public class CategoryDTO {
     private String imageUrl;
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long parentId;
+    private Integer level;
+    private Integer status;
     private List<CategoryDTO> children;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone="GMT+8")
     private LocalDateTime updateTime;

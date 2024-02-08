@@ -19,23 +19,21 @@ import java.util.*;
 public class CategoryService {
     private final CategoryRepository categoryRepository;
 
-    public Mono<Category> getCategory(Long id) {
-        return categoryRepository.findById(id);
-    }
-
     @Transactional
     public Mono<Category> addCategory(Category category) {
         return categoryRepository.save(category);
     }
 
-    public Mono<List<Category>> listCategories() {
-        return categoryRepository.findAll().collectList();
+    public Mono<List<Category>> listCategories(Long pid) {
+        return categoryRepository.findByParentId(pid).collectList();
     }
 
-
-    public Mono<List<CategoryDTO>> listCategoryTree() {
+    public Mono<List<Category>> listCategories(Integer level) {
+        return categoryRepository.findByLevel(level).collectList();
+    }
+    public Mono<List<CategoryDTO>> listCategories() {
         return categoryRepository.findAll()
-                .filter(category -> category.getIsParent() == Category.PARENT)
+                .filter(category -> category.getLevel() == Category.FIRST)
                 .flatMap(this::mapCategoryToNode)
                 .collectList();
     }
@@ -50,6 +48,8 @@ public class CategoryService {
                             .name(category.getName())
                             .imageUrl(category.getImageUrl())
                             .parentId(category.getParentId())
+                            .level(category.getLevel())
+                            .status(category.getStatus())
                             .updateTime(category.getUpdateTime())
                             .children(children)
                             .build();
