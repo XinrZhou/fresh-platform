@@ -33,18 +33,6 @@ public class CategoryController {
     public Mono<ResultVO> getCategories(@PathVariable Integer level) {
         return categoryService.listCategories(level)
                 .map(categories -> ResultVO.success(Map.of("categories", categories)));
-//        return categoryService.listCategories(level)
-//                .flatMap(categories -> Flux.fromIterable(categories)
-//                        .flatMap(category -> {
-//                            SelectOptionsVO selectOptionsVO = SelectOptionsVO.builder()
-//                                    .value(category.getId())
-//                                    .label(category.getName())
-//                                    .build();
-//                            return Mono.just(selectOptionsVO);
-//                        })
-//                        .collectList()
-//                        .map(selectOptionsVOS -> ResultVO.success(Map.of("categories", selectOptionsVOS)))
-//                );
     }
 
     @GetMapping("/categories")

@@ -16,16 +16,14 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class SpecificationParam {
+public class Attribute {
     @Id
     @CreatedBy
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long id;
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long categoryId;
-    @JsonFormat(shape = JsonFormat.Shape.STRING)
-    private Long groupId;
-    private String paramName;
+    private String name;
     // 是否为数字类型 0否 1是
     private Integer isNumeric;
     private String unit;

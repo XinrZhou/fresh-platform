@@ -1,13 +1,11 @@
-package com.example.product.po;
+package com.example.product.dto;
 
-
+import com.example.product.po.Attribute;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.CreatedBy;
-import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.ReadOnlyProperty;
 
 import java.time.LocalDateTime;
@@ -16,14 +14,18 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class SpecificationGroup {
-    @Id
-    @CreatedBy
+public class AttributeDTO {
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long id;
+    private String name;
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long categoryId;
-    private String groupName;
+    public String categoryName;
+    // 是否为数字类型 0否 1是
+    private Integer isNumeric;
+    private String unit;
+    // 是否为sku通用属性 0否 1是
+    private Integer isGeneric;
     @ReadOnlyProperty
     private LocalDateTime insertTime;
     @ReadOnlyProperty
