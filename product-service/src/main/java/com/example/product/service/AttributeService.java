@@ -1,5 +1,6 @@
 package com.example.product.service;
 
+import com.example.common.exception.XException;
 import com.example.product.dto.AttributeDTO;
 import com.example.product.po.Attribute;
 import com.example.product.po.Category;
@@ -28,19 +29,19 @@ public class AttributeService {
         return attributeRepository.findAll().collectList()
                 .flatMap(attributes -> Flux.fromIterable(attributes)
                         .flatMap(attribute -> categoryRepository.findById(attribute.getCategoryId())
-                                .map(category -> {
-                                    AttributeDTO attributeDTO = AttributeDTO.builder()
-                                            .id(attribute.getId())
-                                            .name(attribute.getName())
-                                            .categoryId(attribute.getCategoryId())
-                                            .categoryName(category.getName())
-                                            .unit(attribute.getUnit())
-                                            .isNumeric(attribute.getIsNumeric())
-                                            .isGeneric(attribute.getIsGeneric())
-                                            .updateTime(attribute.getUpdateTime())
-                                            .build();
-                                    return attributeDTO;
-                                }))
+                                .map(category -> AttributeDTO.builder()
+                                        .id(attribute.getId())
+                                        .name(attribute.getName())
+                                        .categoryId(attribute.getCategoryId())
+                                        .categoryName(category.getName())
+                                        .unit(attribute.getUnit())
+                                        .isNumeric(attribute.getIsNumeric())
+                                        .isGeneric(attribute.getIsGeneric())
+                                        .build()))
                         .collectList());
+    }
+
+    public Mono<Void> deleteAttribute(long aid) {
+        return attributeRepository.deleteById(aid).then();
     }
 }

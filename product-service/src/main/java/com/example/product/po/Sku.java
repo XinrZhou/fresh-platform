@@ -24,8 +24,8 @@ public class Sku {
     private Long id;
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long spuId;
-    private String title;
-    private String images;
+    private String name;
+    private String imageUrl;
     private Integer stock;
     private BigDecimal originPrice;
     private BigDecimal discountPrice;

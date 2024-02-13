@@ -21,14 +21,13 @@ public class Spu {
     @CreatedBy
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long id;
-    private String spuName;
-    private String subTitle;
+    private String name;
+    private String title;
     @JsonFormat(shape = JsonFormat.Shape.STRING)
-    private Long cid1;
-    @JsonFormat(shape = JsonFormat.Shape.STRING)
-    private Long cid2;
+    private Long categoryId;
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long brandId;
+    private String imageUrl;
     // 是否上架 0否 1是
     private Integer saleStatus;
     private String description;

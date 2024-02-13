@@ -21,8 +21,9 @@ public class Brand {
     @CreatedBy
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long id;
-    private String brandName;
-    private String imageUrl;
+    private String name;
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
+    private Long categoryId;
     @ReadOnlyProperty
     private LocalDateTime insertTime;
     @ReadOnlyProperty

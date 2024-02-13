@@ -50,7 +50,6 @@ public class CategoryService {
                             .parentId(category.getParentId())
                             .level(category.getLevel())
                             .status(category.getStatus())
-                            .updateTime(category.getUpdateTime())
                             .children(children)
                             .build();
                     return categoryDTO;
