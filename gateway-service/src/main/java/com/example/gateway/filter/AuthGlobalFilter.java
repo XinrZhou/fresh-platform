@@ -51,9 +51,6 @@ public class AuthGlobalFilter implements GlobalFilter {
 
         DecodedJWT decode = jwtUtils.decode(token);
         exchange.getResponse().getHeaders().add(RequestAttributeConstant.UID, decode.getClaim(RequestAttributeConstant.UID).asLong().toString());
-//        exchange.getAttributes().put(RequestAttributeConstant.UID, decode.getClaim(RequestAttributeConstant.UID).asLong());
-//        exchange.getAttributes().put(RequestAttributeConstant.ROLE, decode.getClaim(RequestAttributeConstant.ROLE).asInt());
-        System.out.println("test==="+exchange.getResponse().getHeaders().getFirst(RequestAttributeConstant.UID));
         return chain.filter(exchange);
     }
 
