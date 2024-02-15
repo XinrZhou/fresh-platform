@@ -40,20 +40,17 @@ public class CategoryService {
 
     private Mono<CategoryDTO> mapCategoryToNode(Category category) {
         return categoryRepository.findByParentId(category.getId())
-                .flatMap(child -> mapCategoryToNode(child))
+                .flatMap(this::mapCategoryToNode)
                 .collectList()
-                .map(children -> {
-                    CategoryDTO categoryDTO = CategoryDTO.builder()
-                            .id(category.getId())
-                            .name(category.getName())
-                            .imageUrl(category.getImageUrl())
-                            .parentId(category.getParentId())
-                            .level(category.getLevel())
-                            .status(category.getStatus())
-                            .children(children)
-                            .build();
-                    return categoryDTO;
-                });
+                .map(children -> CategoryDTO.builder()
+                        .id(category.getId())
+                        .name(category.getName())
+                        .imageUrl(category.getImageUrl())
+                        .parentId(category.getParentId())
+                        .level(category.getLevel())
+                        .status(category.getStatus())
+                        .children(children)
+                        .build());
     }
     public Mono<Void> deleteCategory(long cid) {
         return categoryRepository.findCountByParentId(cid)

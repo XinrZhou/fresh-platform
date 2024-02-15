@@ -23,17 +23,18 @@ create table if not exists `brand` (
 ) comment = '品牌表';
 
 create table if not exists `attribute` (
-    id          bigint(19)   not null primary key,
-    category_id bigint(19)   not null,
-    name        varchar(128) not null,
-    is_numeric  tinyint(1)   not null default 0  comment '是否数字类型参数，0否，1是',
-    unit        varchar(32)  default '' comment '数字类型的参数，非数字类型可为空',
-    is_generic  tinyint(1)   not null default  1 comment '是否为sku通用属性，0否，1是',
-    insert_time datetime     not null default current_timestamp,
-    update_time datetime     not null default current_timestamp on update current_timestamp,
+    id          bigint(19)    not null primary key,
+    category_id bigint(19)    not null,
+    name        varchar(128)  not null,
+    is_numeric  tinyint(1)    not null default 0  comment '是否数字类型参数，0否，1是',
+    unit        varchar(32)   default '' comment '数字类型的参数，非数字类型可为空',
+    is_generic  tinyint(1)    not null default  1 comment '是否为sku通用属性，0否，1是',
+    value       varchar(1000) null,
+    insert_time datetime      not null default current_timestamp,
+    update_time datetime      not null default current_timestamp on update current_timestamp,
 
     unique(category_id, name)
-) comment = '规格参数表';
+) comment = '规格表';
 
 create table if not exists `spu` (
     id          bigint(19)   not null primary key,

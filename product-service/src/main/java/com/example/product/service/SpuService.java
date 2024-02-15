@@ -27,24 +27,24 @@ public class SpuService {
 
     public Mono<List<SpuDTO>> listSpus() {
         return spuRepository.findAll().collectList()
-                .flatMap(spus -> Flux.fromIterable(spus)
-                        .flatMap(spu -> categoryRepository.findById(spu.getCategoryId())
-                                .map(category -> SpuDTO.builder()
-                                        .id(spu.getId())
-                                        .name(spu.getName())
-                                        .title(spu.getTitle())
-                                        .categoryId(spu.getCategoryId())
-                                        .categoryName(category.getName())
-                                        .brandId(spu.getBrandId())
-                                        .imageUrl(spu.getImageUrl())
-                                        .build())
-                                .flatMap(spuDTO -> brandRepository.findById(spu.getBrandId())
-                                        .map(brand -> {
-                                            spuDTO.setBrandName(brand.getName());
-                                            return spuDTO;
-                                        }))
-                        )
-                        .collectList());
+                .flatMapMany(Flux::fromIterable)
+                .flatMap(spu ->
+                        categoryRepository.findById(spu.getCategoryId())
+                                .zipWith(brandRepository.findById(spu.getBrandId()), (category, brand) ->
+                                        SpuDTO.builder()
+                                                .id(spu.getId())
+                                                .name(spu.getName())
+                                                .title(spu.getTitle())
+                                                .categoryId(spu.getCategoryId())
+                                                .categoryName(category.getName())
+                                                .brandId(spu.getBrandId())
+                                                .brandName(brand.getName())
+                                                .imageUrl(spu.getImageUrl())
+                                                .saleStatus(spu.getSaleStatus())
+                                                .build()
+                                )
+                )
+                .collectList();
     }
 
     public Mono<Void> deleteSpu(long sid) {

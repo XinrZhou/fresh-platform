@@ -28,6 +28,12 @@ public class AttributeController {
                 .map(attributes -> ResultVO.success(Map.of("attributes", attributes)));
     }
 
+    @GetMapping("/attributes/{sid}")
+    private Mono<ResultVO> getAttributes(@PathVariable long sid) {
+        return attributeService.listAttributes(sid)
+                .map(attributes -> ResultVO.success(Map.of("attributes", attributes)));
+    }
+
     @DeleteMapping("/attributes/{aid}")
     private Mono<ResultVO> deleteAttribute(@PathVariable long aid) {
         return attributeService.deleteAttribute(aid)

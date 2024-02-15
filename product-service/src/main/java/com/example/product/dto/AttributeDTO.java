@@ -26,4 +26,5 @@ public class AttributeDTO {
     private String unit;
     // 是否为sku通用属性 0否 1是
     private Integer isGeneric;
+    private String value;
 }
