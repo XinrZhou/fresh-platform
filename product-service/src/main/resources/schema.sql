@@ -55,7 +55,7 @@ create table if not exists `sku`(
     id             bigint(19)     not null primary key,
     spu_id         bigint(20)     not null,
     name           varchar(256)   not null,
-    image_url      mediumtext     not null,
+    image_url      mediumtext     null,
     stock          int(8)         unsigned default '9999',
     origin_price   decimal(10, 2) not null default '0',
     discount_price decimal(10, 2) not null default '0',
