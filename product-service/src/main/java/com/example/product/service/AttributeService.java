@@ -48,25 +48,23 @@ public class AttributeService {
 
     public Mono<List<Attribute>> listAttributes(long sid) {
         return spuRepository.findById(sid)
-                .flatMap(spu -> categoryRepository.findById(spu.getCategoryId())
-                        .flatMap(category -> getAllAttributesByCategoryId(category.getId())));
+                .flatMap(spu -> getAllAttributesByCategoryId(spu.getCategoryId()));
     }
 
-    private Mono<List<Attribute>> getAllAttributesByCategoryId(long cid) {
-        return attributeRepository.findByCategoryId(cid)
-                .collectList()
-                .flatMap(attributes -> {
-                    if (!attributes.isEmpty()) {
-                        return Mono.just(attributes);
+    private Mono<List<Attribute>> getAllAttributesByCategoryId(long categoryId) {
+        return categoryRepository.findById(categoryId)
+                .flatMap(category -> {
+                    Mono<List<Attribute>> currentAttributes = attributeRepository.findByCategoryId(categoryId).collectList();
+                    if (category.getLevel() == Category.FIRST) {
+                        // 无父类目，直接返回当前类目属性
+                        return currentAttributes;
                     } else {
-                        return categoryRepository.findById(cid)
-                                .flatMap(category -> {
-                                    if (category.getLevel().equals(Category.FIRST)) {
-                                        return Mono.just(Collections.emptyList()); // 没有父类目，直接返回空列表
-                                    } else {
-                                        return getAllAttributesByCategoryId(category.getParentId());
-                                    }
-                                });
+                        // 递归获取父类目属性，将当前类目属性与父类目属性合并
+                        return getAllAttributesByCategoryId(category.getParentId())
+                                .flatMap(parentAttributes -> currentAttributes.map(current -> {
+                                    parentAttributes.addAll(current);
+                                    return parentAttributes;
+                                }));
                     }
                 });
     }

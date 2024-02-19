@@ -68,3 +68,13 @@ create table if not exists `sku`(
     unique(spu_id, name),
     index (spu_id)
 ) comment = 'SKU表';
+
+create table if not exists `rdc_spu` (
+  id          bigint(19) not null primary key ,
+  rdc_id      bigint(19) not null,
+  spu_id      bigint(19) not null,
+  insert_time datetime   not null default current_timestamp,
+  update_time datetime   not null default current_timestamp on update current_timestamp,
+
+  unique(spu_id, rdc_id)
+) comment = 'RDC、SPU关联表';

@@ -37,7 +37,7 @@ public class SkuService {
                                         .originPrice(sku.getOriginPrice())
                                         .discountPrice(sku.getDiscountPrice())
                                         .genericSpec(sku.getGenericSpec())
-                                        .specialSpec(sku.getGenericSpec())
+                                        .specialSpec(sku.getSpecialSpec())
                                         .build()))
                         .collectList()
                 );

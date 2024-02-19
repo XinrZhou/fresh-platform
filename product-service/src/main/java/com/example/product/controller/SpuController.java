@@ -30,6 +30,12 @@ public class SpuController {
                 .map(spus -> ResultVO.success(Map.of("spus", spus)));
     }
 
+    @GetMapping("/spus/{cid}")
+    private Mono<ResultVO> getSpus(@PathVariable long cid) {
+        return spuService.listSpus(cid)
+                .map(spuDTOS -> ResultVO.success(Map.of("spus", spuDTOS)));
+    }
+
     @DeleteMapping("/spus/{sid}")
     private Mono<ResultVO> deleteSpu(@PathVariable long sid) {
         return spuService.deleteSpu(sid)
