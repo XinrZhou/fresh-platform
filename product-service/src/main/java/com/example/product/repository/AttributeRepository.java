@@ -10,6 +10,4 @@ import java.util.List;
 @Repository
 public interface AttributeRepository extends ReactiveCrudRepository<Attribute, Long> {
     Flux<Attribute> findByCategoryId(long cid);
-
-    Flux<Attribute> findAttributeByCategoryIdIn(List<Long> cids);
 }

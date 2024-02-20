@@ -20,7 +20,7 @@ spring:
         - id: product-service
           uri: lb://product-service
           predicates:
-            - Path=/category/**, /attribute/**, /brand/**, /spu/**, /sku/**, /product/**
+            - Path=/category/**, /attribute/**, /brand/**, /spu/**, /sku/**, /rdc_spu/**
         - id: oss-service
           uri: lb://oss-service
           predicates:
