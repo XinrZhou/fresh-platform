@@ -27,27 +27,28 @@ public class SupplierController {
         return supplierService.addUser(user).map(r -> ResultVO.success(Map.of()));
     }
 
-    @GetMapping("/suppliers")
-    public Mono<ResultVO> getSuppliers() {
-        return supplierService.listSuppliers()
-                .flatMap(users -> Flux.fromIterable(users)
-                        .flatMap(user -> {
-                            UserVO userVO = JSONObject.parseObject(user.getSupplier(), UserVO.class);
-                            userVO.setId(user.getId());
-                            userVO.setName(user.getName());
-                            userVO.setNumber(user.getNumber());
-                            userVO.setUpdateTime(user.getUpdateTime());
+    @GetMapping("/suppliers/{page}/{pageSize}")
+    public Mono<ResultVO> getSuppliers(@PathVariable int page, @PathVariable int pageSize) {
+        return supplierService.getSuppliersCount()
+                .flatMap(total -> supplierService.listSuppliers(page, pageSize)
+                        .flatMap(users -> Flux.fromIterable(users)
+                                .flatMap(user -> {
+                                    UserVO userVO = JSONObject.parseObject(user.getSupplier(), UserVO.class);
+                                    userVO.setId(user.getId());
+                                    userVO.setName(user.getName());
+                                    userVO.setNumber(user.getNumber());
+                                    userVO.setUpdateTime(user.getUpdateTime());
 
-                            return rdcService.getRdc(userVO.getRdcId())
-                                    .map(rdc -> {
-                                        userVO.setRdcName(rdc.getName());
-                                        return rdc;
-                                    })
-                                    .thenReturn(userVO);
-                        })
-                        .collectList()
-                        .map(suppliers -> ResultVO.success(Map.of("suppliers", suppliers)))
-                );
+                                    return rdcService.getRdc(userVO.getRdcId())
+                                            .map(rdc -> {
+                                                userVO.setRdcName(rdc.getName());
+                                                return rdc;
+                                            })
+                                            .thenReturn(userVO);
+                                })
+                                .collectList()
+                                .map(suppliers -> ResultVO.success(Map.of("suppliers", suppliers, "total", total)))
+                        ));
     }
 
     @DeleteMapping("/suppliers/{sid}")

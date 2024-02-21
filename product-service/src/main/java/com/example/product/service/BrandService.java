@@ -32,6 +32,9 @@ public class BrandService {
                                         .name(brand.getName())
                                         .categoryId(brand.getCategoryId())
                                         .categoryName(category.getName())
+                                        .status(brand.getStatus())
+                                        .insertTime(brand.getInsertTime())
+                                        .updateTime(brand.getUpdateTime())
                                         .build()))
                         .collectList());
     }

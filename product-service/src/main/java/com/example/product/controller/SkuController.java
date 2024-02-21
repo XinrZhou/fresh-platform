@@ -2,18 +2,16 @@ package com.example.product.controller;
 
 import com.example.common.vo.ResultVO;
 import com.example.product.po.Sku;
-import com.example.product.po.Spu;
 import com.example.product.service.SkuService;
-import com.example.product.service.SpuService;
+import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
 import java.util.Map;
 
+@Api(tags = "商品Sku接口")
 @RestController
-@Slf4j
 @RequestMapping("/sku")
 @RequiredArgsConstructor
 public class SkuController {

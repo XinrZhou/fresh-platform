@@ -18,4 +18,5 @@ public class RdcSpuDTO {
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long spuId;
     private String spuName;
+    private Integer saleStatus;
 }

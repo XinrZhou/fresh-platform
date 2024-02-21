@@ -51,6 +51,7 @@ public class RdcSpuService {
                                 .id(rdcSpu.getId())
                                 .spuId(rdcSpu.getSpuId())
                                 .spuName(spu.getName())
+                                .saleStatus(spu.getSaleStatus())
                                 .rdcId(rdcSpu.getId())
                                 .build()))
                 .collectList();

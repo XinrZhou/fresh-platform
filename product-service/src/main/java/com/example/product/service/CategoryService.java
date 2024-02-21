@@ -24,14 +24,27 @@ public class CategoryService {
         return categoryRepository.save(category);
     }
 
-    public Mono<List<Category>> listCategories(Long pid) {
-        return categoryRepository.findByParentId(pid).collectList();
+    public Mono<List<Category>> listCategories(long pid, int page, int pageSize) {
+        return categoryRepository.findByParentId(pid, (page-1)*pageSize, pageSize).collectList();
     }
 
-    public Mono<List<Category>> listCategories(Integer level) {
+    public Mono<Integer> listCategoriesCount(long pid) {
+        return categoryRepository.findCount(pid);
+    }
+
+    public Mono<List<Category>> listCategories(int level) {
         return categoryRepository.findByLevel(level).collectList();
     }
-    public Mono<List<CategoryDTO>> listCategories() {
+
+    public Mono<List<Category>> listCategories(int page, int pageSize) {
+        return categoryRepository.findAll((page-1)*pageSize, pageSize).collectList();
+    }
+
+    public Mono<Integer> getCategoriesCount() {
+        return categoryRepository.findCount();
+    }
+
+    public Mono<List<CategoryDTO>> listCategoriesTree() {
         return categoryRepository.findAll()
                 .filter(category -> category.getLevel() == Category.FIRST)
                 .flatMap(this::mapCategoryToNode)

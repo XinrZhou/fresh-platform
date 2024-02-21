@@ -1,19 +1,17 @@
 package com.example.product.controller;
 
 import com.example.common.vo.ResultVO;
-import com.example.product.po.Attribute;
 import com.example.product.po.Spu;
-import com.example.product.service.AttributeService;
 import com.example.product.service.SpuService;
+import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
 import java.util.Map;
 
+@Api(tags = "商品Spu接口")
 @RestController
-@Slf4j
 @RequestMapping("/spu")
 @RequiredArgsConstructor
 public class SpuController {

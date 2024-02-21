@@ -60,5 +60,8 @@ public class UserController {
                 .map(user -> ResultVO.success(Map.of("user", user)));
     }
 
-
+    @GetMapping("/info/{uid}")
+    public Mono<User> getInfo(@PathVariable long uid) {
+        return userService.getUser(uid);
+    }
 }

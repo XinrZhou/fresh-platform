@@ -15,5 +15,9 @@ public interface UserRepository extends ReactiveCrudRepository<User, Long> {
 
     Mono<User> findByNumber(String phoneNumber);
 
-    Flux<User> findByRole(Integer role);
+    @Query("select * from user u where u.role=:role order by update_time desc limit :pageSize offset :offset")
+    Flux<User> findByRole(int role, int offset, int pageSize);
+
+    @Query("select count(*) from user u where u.role=:role")
+    Mono<Integer> findCountByRole(int role);
 }

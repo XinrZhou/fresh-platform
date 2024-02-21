@@ -1,6 +1,5 @@
 package com.example.product.po;
 
-
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,15 +15,19 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Brand {
+public class BrandSnapshot {
     @Id
     @CreatedBy
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long id;
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
+    private Long userId;
     private String name;
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long categoryId;
+    // 审核状态 0审核中 1审核通过 2审核拒绝
     private Integer status;
+    private String reason;
     @ReadOnlyProperty
     private LocalDateTime insertTime;
     @ReadOnlyProperty

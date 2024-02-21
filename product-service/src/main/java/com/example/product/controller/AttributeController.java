@@ -3,15 +3,15 @@ package com.example.product.controller;
 import com.example.common.vo.ResultVO;
 import com.example.product.po.Attribute;
 import com.example.product.service.AttributeService;
+import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
 import java.util.Map;
 
+@Api(tags = "属性接口")
 @RestController
-@Slf4j
 @RequestMapping("/attribute")
 @RequiredArgsConstructor
 public class AttributeController {

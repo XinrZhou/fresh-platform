@@ -8,6 +8,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
+import java.util.Iterator;
 import java.util.List;
 
 @Service
@@ -23,8 +24,12 @@ public class SupplierService {
         return userRepository.save(user);
     }
 
-    public Mono<List<User>> listSuppliers() {
-        return userRepository.findByRole(User.SUPPLIER).collectList();
+    public Mono<List<User>> listSuppliers(int page, int pageSize) {
+        return userRepository.findByRole(User.SUPPLIER, (page -1) * pageSize, pageSize).collectList();
+    }
+
+    public Mono<Integer> getSuppliersCount() {
+        return userRepository.findCountByRole(User.SUPPLIER);
     }
 
     public Mono<Void> deleteSupplier(Long sid) {

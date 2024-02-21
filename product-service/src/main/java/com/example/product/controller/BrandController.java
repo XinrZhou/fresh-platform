@@ -3,20 +3,19 @@ package com.example.product.controller;
 import com.example.common.vo.ResultVO;
 import com.example.product.po.Brand;
 import com.example.product.service.BrandService;
+import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
 import java.util.Map;
 
+@Api(tags = "品牌接口")
 @RestController
-@Slf4j
 @RequestMapping("/brand")
 @RequiredArgsConstructor
 public class BrandController {
     private final BrandService brandService;
-
 
     @PostMapping("/brands")
     public Mono<ResultVO> postBrand(@RequestBody Brand brand) {

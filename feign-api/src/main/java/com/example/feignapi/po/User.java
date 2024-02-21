@@ -1,7 +1,8 @@
-package com.example.product.po;
-
+package com.example.feignapi.po;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,15 +17,18 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Brand {
-    @Id
-    @CreatedBy
+public class User {
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long id;
     private String name;
-    @JsonFormat(shape = JsonFormat.Shape.STRING)
-    private Long categoryId;
-    private Integer status;
+    private String number;
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private String password;
+    @JsonIgnore
+    private int role;
+    private String supplier;
+    private String consumer;
+    private String avatar;
     @ReadOnlyProperty
     private LocalDateTime insertTime;
     @ReadOnlyProperty

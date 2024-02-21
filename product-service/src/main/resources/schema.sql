@@ -4,7 +4,7 @@ create table if not exists `category`
 (
     id             bigint(19)   not null primary key,
     name           varchar(128) not null,
-    image_url      mediumtext   not null comment '类目图片',
+    image_url      mediumtext   null comment '类目图片',
     parent_id      bigint(19)   not null default 0 comment '父类id，根类目为0',
     level          tinyint(1)   not null comment '类目层级，1，2，3',
     status         tinyint(1)   not null comment '状态，0未启用 1使用中',
@@ -16,11 +16,23 @@ create table if not exists `category`
 
 create table if not exists `brand` (
     id          bigint(19)   not null primary key,
-    name  varchar(128) not null,
+    name        varchar(128) not null,
     category_id bigint(19)   not null,
+    status      tinyint(1)   not null default 0 comment '是否使用，0否，1是',
     insert_time datetime     not null default current_timestamp,
     update_time datetime     not null default current_timestamp on update current_timestamp
 ) comment = '品牌表';
+
+create table if not exists `brand_snapshot` (
+    id          bigint(19)   not null primary key,
+    name        varchar(128) not null,
+    user_id      bigint(19)  not null,
+    category_id bigint(19)   not null,
+    status      tinyint(1)   not null default 0 comment '审核状态，0审核中，1审核通过，2审核拒绝',
+    reason      varchar(255) null,
+    insert_time datetime     not null default current_timestamp,
+    update_time datetime     not null default current_timestamp on update current_timestamp
+) comment = '品牌快照表';
 
 create table if not exists `attribute` (
     id          bigint(19)    not null primary key,
