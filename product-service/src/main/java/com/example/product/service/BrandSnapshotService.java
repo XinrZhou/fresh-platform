@@ -25,8 +25,29 @@ public class BrandSnapshotService {
         return brandSnapshotRepository.save(brandSnapshot);
     }
 
-    public Mono<List<BrandDTO>> listBrandSnapshots() {
-       return brandSnapshotRepository.findAll().collectList()
+    public Mono<List<BrandDTO>> listBrandSnapshots(int page, int pageSize) {
+        return brandSnapshotRepository.findAll((page - 1) * pageSize, pageSize).collectList()
+                .flatMapMany(Flux::fromIterable)
+                .flatMap(brandSnapshot -> categoryRepository.findById(brandSnapshot.getCategoryId())
+                        .zipWith(userClient.getInfo(brandSnapshot.getUserId()), (category, user) ->
+                                BrandDTO.builder()
+                                        .id(brandSnapshot.getId())
+                                        .name(brandSnapshot.getName())
+                                        .categoryId(brandSnapshot.getCategoryId())
+                                        .categoryName(category.getName())
+                                        .userId(brandSnapshot.getUserId())
+                                        .userName(user.getName())
+                                        .status(brandSnapshot.getStatus())
+                                        .reason(brandSnapshot.getReason())
+                                        .insertTime(brandSnapshot.getInsertTime())
+                                        .updateTime(brandSnapshot.getUpdateTime())
+                                        .build()
+                        )
+                ).collectList();
+    }
+
+    public Mono<List<BrandDTO>> listBrandSnapshots(int page, int pageSize, long uid) {
+       return brandSnapshotRepository.findByUserId((page - 1) * pageSize, pageSize, uid).collectList()
                 .flatMapMany(Flux::fromIterable)
                 .flatMap(brandSnapshot -> categoryRepository.findById(brandSnapshot.getCategoryId())
                         .zipWith(userClient.getInfo(brandSnapshot.getUserId()), (category, user) ->
@@ -42,5 +63,13 @@ public class BrandSnapshotService {
                                         .build()
                         )
                 ).collectList();
+    }
+
+    public Mono<Integer> getBrandsSnapshotCount() {
+        return brandSnapshotRepository.findCount();
+    }
+
+    public Mono<Void> deleteBrandSnapshot(long bid) {
+        return brandSnapshotRepository.deleteById(bid);
     }
 }

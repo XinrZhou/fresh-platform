@@ -22,28 +22,28 @@ public class BrandSnapshotController {
                 .map(r -> ResultVO.success(Map.of()));
     }
 
-    @GetMapping("/snapshots")
-    public Mono<ResultVO> getBrandSnapshots() {
-        return brandSnapshotService.listBrandSnapshots()
-                .map(brands -> ResultVO.success(Map.of("brands", brands)));
+    @GetMapping("/snapshots/{page}/{pageSize}")
+    public Mono<ResultVO> getBrandSnapshots(@PathVariable int page, @PathVariable int pageSize) {
+        return brandSnapshotService.getBrandsSnapshotCount()
+                .flatMap(total -> brandSnapshotService.listBrandSnapshots(page, pageSize)
+                        .map(brandDTOS -> ResultVO.success(Map.of(
+                                "brands", brandDTOS, "total", total
+                        ))));
     }
 
-//    @GetMapping("/brands")
-//    public Mono<ResultVO> getBrands() {
-//        return brandService.listBrands()
-//                .map(brands -> ResultVO.success(Map.of("brands", brands)));
-//    }
-//
-//    @GetMapping("/brands/{cid}")
-//    public Mono<ResultVO> getBrands(@PathVariable long cid) {
-//        return brandService.listBrands(cid)
-//                .map(brands -> ResultVO.success(Map.of("brands", brands)));
-//    }
-//
-//    @DeleteMapping("/brands/{bid}")
-//    public Mono<ResultVO> deleteBrand(@PathVariable long bid) {
-//        return brandService.deleteBrand(bid)
-//                .then(Mono.just(ResultVO.success(Map.of())));
-//    }
+    @GetMapping("/snapshots/{uid}/{page}/{pageSize}")
+    public Mono<ResultVO> getBrandSnapshots(@PathVariable long uid, @PathVariable int page, @PathVariable int pageSize) {
+        return brandSnapshotService.getBrandsSnapshotCount()
+                .flatMap(total -> brandSnapshotService.listBrandSnapshots(page, pageSize, uid)
+                        .map(brandDTOS -> ResultVO.success(Map.of(
+                                "brands", brandDTOS, "total", total
+                        ))));
+    }
+
+    @DeleteMapping("/snapshots/{bid}")
+    public Mono<ResultVO> deleteBrandSnapshot(@PathVariable long bid) {
+        return brandSnapshotService.deleteBrandSnapshot(bid)
+                .then(Mono.just(ResultVO.success(Map.of())));
+    }
 
 }

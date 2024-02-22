@@ -1,4 +1,4 @@
-package com.example.product.exception;
+package com.example.gateway.exception;
 
 
 import com.example.common.exception.Code;
@@ -21,7 +21,6 @@ public class ExceptionController {
 
     @ExceptionHandler(Exception.class)
     public Mono<ResultVO> handleException(Exception exception) {
-        System.out.println("test===" + exception.getMessage());
         return Mono.just(ResultVO.error(400, "请求错误"));
     }
 

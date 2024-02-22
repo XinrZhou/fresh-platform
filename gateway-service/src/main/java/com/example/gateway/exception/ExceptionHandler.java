@@ -1,4 +1,4 @@
-package com.example.user.exception;
+package com.example.gateway.exception;
 
 
 import com.example.common.exception.XException;
