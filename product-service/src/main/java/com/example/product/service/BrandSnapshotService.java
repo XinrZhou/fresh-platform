@@ -1,9 +1,7 @@
 package com.example.product.service;
 
 import com.example.feignapi.client.UserClient;
-import com.example.feignapi.dto.UserDTO;
 import com.example.product.dto.BrandDTO;
-import com.example.product.dto.SpuDTO;
 import com.example.product.po.BrandSnapshot;
 import com.example.product.repository.BrandSnapshotRepository;
 import com.example.product.repository.CategoryRepository;
@@ -28,7 +26,8 @@ public class BrandSnapshotService {
     }
 
     public Mono<List<BrandDTO>> listBrandSnapshots() {
-        return brandSnapshotRepository.findAll()
+       return brandSnapshotRepository.findAll().collectList()
+                .flatMapMany(Flux::fromIterable)
                 .flatMap(brandSnapshot -> categoryRepository.findById(brandSnapshot.getCategoryId())
                         .zipWith(userClient.getInfo(brandSnapshot.getUserId()), (category, user) ->
                                 BrandDTO.builder()
@@ -42,7 +41,6 @@ public class BrandSnapshotService {
                                         .updateTime(brandSnapshot.getUpdateTime())
                                         .build()
                         )
-                )
-                .collectList();
+                ).collectList();
     }
 }
