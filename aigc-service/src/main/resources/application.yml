@@ -1,12 +1,11 @@
 server:
-  port: 8085
+  port: 8086
 spring:
   application:
-    name: oss-service
+    name: aigc-service
   cloud:
     nacos:
       server-addr: 124.223.175.150:8848
-
 logging:
   level:
     root: info
@@ -17,6 +16,6 @@ logging:
         r2dbc: debug
   pattern:
     console: '%-5level %C.%M[%line] - %msg%n'
-
 my:
-  secretKey: dldkshfpojoi42zxr
+  SecretId: AKIDKoO98437Ldz6AJYwIg1Da2U5jJoQC921
+  SecretKey: FPcUSMPh4Hg3ADC5vmV7eRJE528Lh8mZ

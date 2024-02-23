@@ -25,6 +25,10 @@ spring:
           uri: lb://oss-service
           predicates:
             - Path=/oss/**
+        - id: aigc-service
+          uri: lb://aigc-service
+          predicates:
+            - Path=/ai/**
 
 logging:
   level:

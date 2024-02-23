@@ -16,7 +16,6 @@ import java.io.IOException;
 import java.util.Map;
 
 @RestController
-@Slf4j
 @RequiredArgsConstructor
 @RequestMapping("/oss")
 public class OssController {
