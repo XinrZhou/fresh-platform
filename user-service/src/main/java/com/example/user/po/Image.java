@@ -15,16 +15,15 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Rdc {
+public class Image {
     @Id
     @CreatedBy
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long id;
-    private String name;
-    private String province;
-    private String city;
-    private String district;
-    private String detail;
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
+    private Long userId;
+    private String prompt;
+    private String imageUrl;
     @ReadOnlyProperty
     private LocalDateTime insertTime;
     @ReadOnlyProperty

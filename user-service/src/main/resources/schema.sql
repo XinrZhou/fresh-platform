@@ -42,3 +42,13 @@ create table if not exists address
     insert_time  datetime    not null default current_timestamp,
     update_time  datetime    not null default current_timestamp on update current_timestamp
 );
+
+create table if not exists image
+(
+    id           bigint(19)   not null primary key,
+    user_id      bigint(19)   not null,
+    prompt       varchar(800) not null,
+    image_url    varchar(255) not null,
+    insert_time  datetime     not null default current_timestamp,
+    update_time  datetime     not null default current_timestamp on update current_timestamp
+);

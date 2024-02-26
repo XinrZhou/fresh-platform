@@ -20,7 +20,7 @@ import java.util.Map;
 public class ImageGenerationController {
     private final ImageGenerationService imageGenerationService;
 
-    @PostMapping("/picture")
+    @PostMapping("/images")
     public Mono<ResultVO> postAiPainting(@RequestBody TextToImageRequest textToImageRequest) throws TencentCloudSDKException {
         TextToImageResponse res = imageGenerationService.addAiPainting(textToImageRequest);
         return Mono.just(ResultVO.success(Map.of("images", res)));
