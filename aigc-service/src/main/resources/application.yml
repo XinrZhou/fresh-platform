@@ -19,3 +19,4 @@ logging:
 my:
   SecretId: AKIDKoO98437Ldz6AJYwIg1Da2U5jJoQC921
   SecretKey: FPcUSMPh4Hg3ADC5vmV7eRJE528Lh8mZ
+  ApiKey: sk-a74f687a58c2496e93bb842c25684e7e
