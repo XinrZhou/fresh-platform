@@ -18,5 +18,8 @@ logging:
   pattern:
     console: '%-5level %C.%M[%line] - %msg%n'
 
-my:
-  secretKey: dldkshfpojoi42zxr
+oss:
+  endPoint: oss-cn-hangzhou.aliyuncs.com
+  accessKeyId: LTAI5tFMdUrkP8zpHh5NcGQB
+  accessKeySecret: FJjOBonpziQuTvJYdm4yeeROTx3Rxv
+  bucketName: fresh-platform-img

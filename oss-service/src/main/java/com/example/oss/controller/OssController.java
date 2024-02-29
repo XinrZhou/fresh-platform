@@ -22,8 +22,8 @@ public class OssController {
     private final OssService ossService;
 
     @PostMapping("/upload")
-    public Mono<ResultVO> uploadFile(@RequestPart("file")FilePart file) throws IOException {
-        String imageUrl = ossService.uploadFile(file);
-        return Mono.just(ResultVO.success(Map.of("url", imageUrl)));
+    public Mono<ResultVO> uploadFile(@RequestPart("file")FilePart file) {
+        return ossService.uploadFile(file)
+                .map(url -> ResultVO.success(Map.of("url", url)));
     }
 }

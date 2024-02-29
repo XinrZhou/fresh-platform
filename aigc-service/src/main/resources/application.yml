@@ -6,6 +6,19 @@ spring:
   cloud:
     nacos:
       server-addr: 124.223.175.150:8848
+  r2dbc:
+    url: r2dbcs:mysql://124.223.175.150:3309/ai-service?serverTimezone=Asia/Shanghai
+    username: root
+    password: 1157
+    pool:
+      enabled: true
+      initial-size: 1
+      validation-query: select 1
+      max-life-time: 30000
+
+  jackson:
+    default-property-inclusion: non_null
+
 logging:
   level:
     root: info
@@ -16,7 +29,11 @@ logging:
         r2dbc: debug
   pattern:
     console: '%-5level %C.%M[%line] - %msg%n'
+
 my:
+  secretKey: dldkshfpojoi42zxr
   SecretId: AKIDKoO98437Ldz6AJYwIg1Da2U5jJoQC921
   SecretKey: FPcUSMPh4Hg3ADC5vmV7eRJE528Lh8mZ
   ApiKey: sk-a74f687a58c2496e93bb842c25684e7e
+
+
