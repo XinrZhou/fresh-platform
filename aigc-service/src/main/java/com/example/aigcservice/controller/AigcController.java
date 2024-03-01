@@ -30,7 +30,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/ai")
 @RequiredArgsConstructor
-public class ImageGenerationController {
+public class AigcController {
     @Value("${my.ApiKey}")
     private String apiKey;
 
@@ -45,7 +45,7 @@ public class ImageGenerationController {
 
 
     @PostMapping(value = "/chat", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
-    public Flux<ServerSentEvent<String>> aiTalk(@RequestBody String question, ServerHttpRequest request )
+    public Flux<ServerSentEvent<String>> aiTalk(@RequestBody String question )
             throws NoApiKeyException, InputRequiredException {
         Message message = Message.builder()
                 .role(Role.USER.getValue())

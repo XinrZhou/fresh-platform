@@ -15,6 +15,12 @@ spring:
       initial-size: 1
       validation-query: select 1
       max-life-time: 30000
+  data:
+    redis:
+      host: 124.223.175.150
+      port: 6379
+      connect-timeout: 3000
+      password: 1157
 
   jackson:
     default-property-inclusion: non_null

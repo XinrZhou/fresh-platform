@@ -28,7 +28,13 @@ spring:
         - id: aigc-service
           uri: lb://aigc-service
           predicates:
-            - Path=/ai/**
+            - Path=/ai/**, /resource/**
+  data:
+    redis:
+      host: 124.223.175.150
+      port: 6379
+      connect-timeout: 2000
+      password: 1157
 
 logging:
   level:

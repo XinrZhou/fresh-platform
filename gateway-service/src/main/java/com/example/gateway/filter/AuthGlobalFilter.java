@@ -18,7 +18,7 @@ import reactor.core.publisher.Mono;
 import java.util.List;
 
 @Component
-@Order(1)
+@Order(2)
 @Slf4j
 @RequiredArgsConstructor
 public class AuthGlobalFilter implements GlobalFilter {
