@@ -21,7 +21,6 @@ public class ImageGenerationService {
         AiartClient client = new AiartClient(cred, "ap-shanghai");
         TextToImageRequest req = new TextToImageRequest(textToImageRequest);
         TextToImageResponse resp = client.TextToImage(req);
-        System.out.println(resp);
         return resp;
     };
 

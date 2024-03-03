@@ -38,7 +38,7 @@ public class AigcController {
     private final ImageGenerationService imageGenerationService;
 
     @PostMapping("/images")
-    public Mono<ResultVO> postAiPainting(@RequestBody TextToImageRequest textToImageRequest, ServerHttpRequest request) throws TencentCloudSDKException {
+    public Mono<ResultVO> postAiPainting(@RequestBody TextToImageRequest textToImageRequest) throws TencentCloudSDKException {
         TextToImageResponse res = imageGenerationService.addAiPainting(textToImageRequest);
         return Mono.just(ResultVO.success(Map.of("images", res)));
     }
