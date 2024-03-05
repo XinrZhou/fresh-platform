@@ -11,27 +11,19 @@ import org.springframework.data.annotation.ReadOnlyProperty;
 
 import java.time.LocalDateTime;
 
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Spu {
+public class SpuUser {
     @Id
     @CreatedBy
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long id;
-    private String name;
-    private String title;
     @JsonFormat(shape = JsonFormat.Shape.STRING)
-    private Long categoryId;
+    private Long userId;
     @JsonFormat(shape = JsonFormat.Shape.STRING)
-    private Long brandId;
-    private String imageUrl;
-    private String detailImageUrl;
-    // 是否上架 0否 1是
-    private Integer saleStatus;
-    private String description;
+    private Long spuId;
     @ReadOnlyProperty
     private LocalDateTime insertTime;
     @ReadOnlyProperty

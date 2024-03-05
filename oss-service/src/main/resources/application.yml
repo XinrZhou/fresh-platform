@@ -22,4 +22,4 @@ oss:
   endPoint: oss-cn-hangzhou.aliyuncs.com
   accessKeyId: LTAI5tFMdUrkP8zpHh5NcGQB
   accessKeySecret: FJjOBonpziQuTvJYdm4yeeROTx3Rxv
-  bucketName: fresh-platform-img
+  bucketName: fresh-platform

@@ -1,11 +1,15 @@
 package com.example.product.service;
 
+import com.example.product.dto.RdcSpuDTO;
 import com.example.product.dto.SpuDTO;
+import com.example.product.po.Brand;
 import com.example.product.po.Category;
 import com.example.product.po.Spu;
+import com.example.product.po.SpuUser;
 import com.example.product.repository.BrandRepository;
 import com.example.product.repository.CategoryRepository;
 import com.example.product.repository.SpuRepository;
+import com.example.product.repository.SpuUserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -21,15 +25,22 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class SpuService {
     private final SpuRepository spuRepository;
+    private final SpuUserRepository spuUserRepository;
     private final CategoryRepository categoryRepository;
     private final BrandRepository brandRepository;
 
-    public Mono<Spu> addSpu(Spu spu) {
-        return spuRepository.save(spu);
+    public Mono<SpuUser> addSpu(Spu spu, long uid) {
+        return spuRepository.save(spu)
+                        .flatMap(spu1 -> spuUserRepository.save(SpuUser
+                                .builder()
+                                .userId(uid)
+                                .spuId(spu1.getId())
+                                .build())
+                        );
     }
 
-    public Mono<List<SpuDTO>> listSpus() {
-        return spuRepository.findAll().collectList()
+    public Mono<List<SpuDTO>> listSpus(int page, int pageSize) {
+        return spuRepository.findAll((page - 1) * pageSize, pageSize).collectList()
                 .flatMapMany(Flux::fromIterable)
                 .flatMap(spu ->
                         categoryRepository.findById(spu.getCategoryId())
@@ -43,12 +54,43 @@ public class SpuService {
                                                 .brandId(spu.getBrandId())
                                                 .brandName(brand.getName())
                                                 .imageUrl(spu.getImageUrl())
+                                                .detailImageUrl(spu.getDetailImageUrl())
                                                 .saleStatus(spu.getSaleStatus())
                                                 .build()
                                 )
                 )
                 .collectList();
     }
+
+    public Mono<List<SpuDTO>> listSpusByUserId(int page, int pageSize, long uid) {
+        return spuUserRepository.findByUserId((page - 1) * pageSize, pageSize, uid)
+                .flatMap(spuUser -> spuRepository.findById(spuUser.getSpuId())
+                        .flatMap(spu -> {
+                            Mono<Category> categoryMono = categoryRepository.findById(spu.getCategoryId());
+                            Mono<Brand> brandMono = brandRepository.findById(spu.getBrandId());
+
+                            return Mono.zip(categoryMono, brandMono)
+                                    .map(tuple -> {
+                                        Category category = tuple.getT1();
+                                        Brand brand = tuple.getT2();
+                                        return SpuDTO.builder()
+                                                .id(spu.getId())
+                                                .name(spu.getName())
+                                                .title(spu.getTitle())
+                                                .categoryId(spu.getCategoryId())
+                                                .categoryName(category.getName())
+                                                .brandId(spu.getBrandId())
+                                                .brandName(brand.getName())
+                                                .imageUrl(spu.getImageUrl())
+                                                .detailImageUrl(spu.getDetailImageUrl())
+                                                .saleStatus(spu.getSaleStatus())
+                                                .build();
+                                    });
+                        })
+                )
+                .collectList();
+    }
+
 
     public Mono<List<SpuDTO>> listSpus(long cid) {
         return categoryRepository.findAll().collectList()

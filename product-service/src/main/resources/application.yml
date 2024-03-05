@@ -32,3 +32,6 @@ logging:
   pattern:
     console: '%-5level %C.%M[%line] - %msg%n'
 
+my:
+  secretKey: dldkshfpojoi42zxr
+

@@ -49,19 +49,28 @@ create table if not exists `attribute` (
 ) comment = '规格表';
 
 create table if not exists `spu` (
-    id          bigint(19)   not null primary key,
-    name        varchar(256) not null,
-    title       varchar(256) not null default '',
-    category_id bigint(19)   not null,
-    brand_id    bigint(19)   not null,
-    image_url   mediumtext   not null comment '产品主图',
-    sale_status tinyint(1)   not null default '1' comment '是否上架，0下架，1上架',
-    description text         null,
-    insert_time datetime     not null default current_timestamp,
-    update_time datetime     not null default current_timestamp on update current_timestamp,
+    id               bigint(19)   not null primary key,
+    name             varchar(256) not null,
+    title            varchar(256) not null default '',
+    category_id      bigint(19)   not null,
+    brand_id         bigint(19)   not null,
+    image_url        mediumtext   not null comment '产品主图',
+    detail_image_url mediumtext   not null comment '产品详情图',
+    sale_status      tinyint(1)   not null default '1' comment '是否上架，0下架，1上架',
+    description      text         null,
+    insert_time      datetime     not null default current_timestamp,
+    update_time      datetime     not null default current_timestamp on update current_timestamp,
 
     unique (name, category_id)
 ) comment = 'SPU';
+
+create table if not exists `spu_user` (
+    id           bigint(19) not null primary key,
+    user_id      bigint(19) not null,
+    spu_id       bigint(19) not null,
+    insert_time  datetime   not null default current_timestamp,
+    update_time  datetime   not null default current_timestamp on update current_timestamp
+) comment = 'SPU、用户关联表';
 
 create table if not exists `sku`(
     id             bigint(19)     not null primary key,
