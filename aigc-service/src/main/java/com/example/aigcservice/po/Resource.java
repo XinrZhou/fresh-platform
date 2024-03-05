@@ -10,6 +10,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.ReadOnlyProperty;
 import org.springframework.data.relational.core.mapping.Table;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Table
@@ -17,20 +18,21 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Model {
+public class Resource {
     public static final int IMAGE = 0;
     public static final int CHAT = 1;
     @Id
     @CreatedBy
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long id;
-    private String version;
-    // 类型 0绘画 1写作
+    private String name;
+    // 资源类型 0绘画 1写作
     private Integer type;
-    // 状态 0未使用 1使用中
+    // 状态 0禁用 1使用
     private Integer status;
-    // json
-    private String params;
+    private String description;
+    private BigDecimal price;
+    private String unit;
     @ReadOnlyProperty
     private LocalDateTime insertTime;
     @ReadOnlyProperty

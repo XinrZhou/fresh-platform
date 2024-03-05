@@ -26,4 +26,10 @@ public class ModelController {
     public Mono<ResultVO> postModel(@RequestBody Model model) {
         return modelService.addModel(model).map(model1 -> ResultVO.success(Map.of()));
     }
+
+    @GetMapping("/models")
+    Mono<ResultVO> getModelParams() {
+        return modelService.listModelParams()
+                .map(models -> ResultVO.success(Map.of("models", models)));
+    }
 }

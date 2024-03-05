@@ -2,6 +2,7 @@ package com.example.aigcservice.service;
 
 import com.example.aigcservice.po.Model;
 import com.example.aigcservice.repository.ModelRepository;
+import com.example.common.constant.StatusEnum;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -20,9 +21,9 @@ public class ModelService {
     }
 
     public Mono<Model> addModel(Model model) {
-        return modelRepository.findAll().skip(1).next()
+        return modelRepository.findByType(model.getType()).skip(1).next()
                 .flatMap(firstModel -> {
-                    firstModel.setStatus(0);
+                    firstModel.setStatus(StatusEnum.UNUSED.getCode());
                     return modelRepository.save(firstModel);
                 })
                 .then(modelRepository.save(model));
@@ -30,5 +31,9 @@ public class ModelService {
 
     public Mono<Integer> getCount(int type) {
         return modelRepository.findCount(type);
+    }
+
+    public Mono<List<Model>> listModelParams() {
+        return modelRepository.findByTypeAndStatus(Model.IMAGE, StatusEnum.IN_USE.getCode()).collectList();
     }
 }
