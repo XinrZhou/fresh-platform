@@ -10,6 +10,8 @@ import reactor.core.publisher.Mono;
 
 @Repository
 public interface CategoryRepository extends ReactiveCrudRepository<Category, Long> {
+    @Query("select * from category order by update_time desc;")
+    Flux<Category> findAll();
 
     @Query("select * from category order by update_time desc limit :pageSize offset :page")
     Flux<Category> findAll(int page, int pageSize);

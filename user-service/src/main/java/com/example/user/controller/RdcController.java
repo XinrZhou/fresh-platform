@@ -22,6 +22,13 @@ public class RdcController {
         return rdcService.addRdc(rdc).map(r -> ResultVO.success(Map.of()));
     }
 
+    @GetMapping("/rdcs/{page}/{pageSize}")
+    public Mono<ResultVO> getRdcs(@PathVariable int page, @PathVariable int pageSize) {
+        return rdcService.getRdcCount()
+                .flatMap(total -> rdcService.listRdcs(page, pageSize)
+                        .map(rdcs -> ResultVO.success(Map.of("total", total, "rdcs", rdcs))));
+    }
+
     @GetMapping("/rdcs")
     public Mono<ResultVO> getRdcs() {
         return rdcService.listRdcs()

@@ -1,9 +1,7 @@
 package com.example.product.service;
 
 import com.example.product.config.SnowFlakeGenerator;
-import com.example.product.dto.BrandDTO;
 import com.example.product.dto.RdcSpuDTO;
-import com.example.product.dto.SpuDTO;
 import com.example.product.po.RdcSpu;
 import com.example.product.repository.RdcSpuRepository;
 import com.example.product.repository.SpuRepository;
@@ -43,8 +41,8 @@ public class RdcSpuService {
         }).then();
     }
 
-    public Mono<List<RdcSpuDTO>> listRdcSpus() {
-        return rdcSpuRepository.findAll().collectList()
+    public Mono<List<RdcSpuDTO>> listRdcSpus(long rid, int page, int pageSize) {
+        return rdcSpuRepository.findAll(rid, (page - 1) * pageSize, pageSize).collectList()
                 .flatMapMany(Flux::fromIterable)
                 .flatMap(rdcSpu -> spuRepository.findById(rdcSpu.getSpuId())
                         .map(spu -> RdcSpuDTO.builder()
@@ -55,6 +53,10 @@ public class RdcSpuService {
                                 .rdcId(rdcSpu.getId())
                                 .build()))
                 .collectList();
+    }
+
+    public Mono<Integer> getRdcSpuCount(long rid) {
+        return rdcSpuRepository.findCount(rid);
     }
 
     public Mono<Void> deleteRdcSpu(long rid) {

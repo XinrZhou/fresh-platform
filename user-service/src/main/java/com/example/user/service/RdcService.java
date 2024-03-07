@@ -17,8 +17,16 @@ public class RdcService {
         return rdcRepository.save(rdc);
     }
 
+    public Mono<List<Rdc>> listRdcs(int page, int pageSize) {
+        return rdcRepository.findAll((page -1) * pageSize, pageSize).collectList();
+    }
+
     public Mono<List<Rdc>> listRdcs() {
         return rdcRepository.findAll().collectList();
+    }
+
+    public Mono<Integer> getRdcCount() {
+        return rdcRepository.findCount();
     }
 
     public Mono<Rdc> getRdc(Long rid) {

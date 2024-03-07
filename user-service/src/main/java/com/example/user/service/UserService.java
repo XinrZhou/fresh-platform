@@ -17,8 +17,6 @@ import java.math.BigDecimal;
 @RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
-    private final JwtUtils jwtUtils;
 
     public Mono<User> getUser(Long uid) {
         return userRepository.findById(uid);

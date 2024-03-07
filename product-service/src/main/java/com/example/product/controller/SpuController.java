@@ -1,15 +1,11 @@
 package com.example.product.controller;
 
-import com.auth0.jwt.interfaces.DecodedJWT;
-import com.example.common.vo.RequestAttributeConstant;
 import com.example.common.vo.ResultVO;
 
-import com.example.feignapi.po.User;
 import com.example.product.dto.SpuDTO;
 import com.example.product.po.Spu;
 import com.example.product.service.SpuService;
 import com.example.product.utils.DecodeUtils;
-import com.example.product.utils.JwtUtils;
 import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.server.reactive.ServerHttpRequest;
@@ -29,13 +25,20 @@ public class SpuController {
     final int ADMIN_ROLE = 10;
 
     @PostMapping("/spus")
-    private Mono<ResultVO> postSpu(@RequestBody Spu spu, ServerHttpRequest request) {
+    public Mono<ResultVO> postSpu(@RequestBody Spu spu, ServerHttpRequest request) {
         return spuService.addSpu(spu, decodeUtils.getUserId(request))
                 .map(r -> ResultVO.success(Map.of()));
     }
 
+    @GetMapping("/spus")
+    public Mono<ResultVO> getSpus() {
+        return spuService.listSpus()
+                .map(spuDTOS -> ResultVO.success(Map.of("spus", spuDTOS)));
+    }
+
+
     @GetMapping("/spus/{page}/{pageSize}")
-    private Mono<ResultVO> getSpus(@PathVariable int page, @PathVariable int pageSize, ServerHttpRequest request) {
+    public Mono<ResultVO> getSpus(@PathVariable int page, @PathVariable int pageSize, ServerHttpRequest request) {
         long uid = decodeUtils.getUserId(request);
         int role = decodeUtils.getRole(request);
 
@@ -50,13 +53,13 @@ public class SpuController {
     }
 
     @GetMapping("/spus/{cid}")
-    private Mono<ResultVO> getSpus(@PathVariable long cid) {
+    public Mono<ResultVO> getSpus(@PathVariable long cid) {
         return spuService.listSpus(cid)
                 .map(spuDTOS -> ResultVO.success(Map.of("spus", spuDTOS)));
     }
 
     @DeleteMapping("/spus/{sid}")
-    private Mono<ResultVO> deleteSpu(@PathVariable long sid) {
+    public Mono<ResultVO> deleteSpu(@PathVariable long sid) {
         return spuService.deleteSpu(sid)
                 .then(Mono.just(ResultVO.success(Map.of())));
     }

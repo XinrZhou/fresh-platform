@@ -39,6 +39,29 @@ public class SpuService {
                         );
     }
 
+    public Mono<List<SpuDTO>> listSpus() {
+        return spuRepository.findAll().collectList()
+                .flatMapMany(Flux::fromIterable)
+                .flatMap(spu ->
+                        categoryRepository.findById(spu.getCategoryId())
+                                .zipWith(brandRepository.findById(spu.getBrandId()), (category, brand) ->
+                                        SpuDTO.builder()
+                                                .id(spu.getId())
+                                                .name(spu.getName())
+                                                .title(spu.getTitle())
+                                                .categoryId(spu.getCategoryId())
+                                                .categoryName(category.getName())
+                                                .brandId(spu.getBrandId())
+                                                .brandName(brand.getName())
+                                                .imageUrl(spu.getImageUrl())
+                                                .detailImageUrl(spu.getDetailImageUrl())
+                                                .saleStatus(spu.getSaleStatus())
+                                                .build()
+                                )
+                )
+                .collectList();
+    }
+
     public Mono<List<SpuDTO>> listSpus(int page, int pageSize) {
         return spuRepository.findAll((page - 1) * pageSize, pageSize).collectList()
                 .flatMapMany(Flux::fromIterable)

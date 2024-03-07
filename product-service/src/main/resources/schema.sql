@@ -90,6 +90,14 @@ create table if not exists `sku`(
     index (spu_id)
 ) comment = 'SKU表';
 
+create table if not exists `sku_user` (
+    id           bigint(19) not null primary key,
+    user_id      bigint(19) not null,
+    sku_id       bigint(19) not null,
+    insert_time  datetime   not null default current_timestamp,
+    update_time  datetime   not null default current_timestamp on update current_timestamp
+) comment = 'SKU、用户关联表';
+
 create table if not exists `rdc_spu` (
   id          bigint(19) not null primary key ,
   rdc_id      bigint(19) not null,
