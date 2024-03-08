@@ -35,7 +35,7 @@ public class RdcController {
                 .map(rdcs -> ResultVO.success(Map.of("rdcs", rdcs)));
     }
 
-    @DeleteMapping("/rdcs/{sid}")
+    @DeleteMapping("/rdcs/{rid}")
     public Mono<ResultVO> deleteRdc(@PathVariable long rid) {
         return rdcService.deleteRdc(rid)
                 .then(Mono.just(ResultVO.success(Map.of())));

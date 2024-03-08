@@ -10,6 +10,7 @@ import com.example.product.repository.SpuUserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -23,6 +24,7 @@ public class SkuService {
     private final SpuRepository spuRepository;
     private final SkuUserRepository skuUserRepository;
 
+    @Transactional
     public Mono<SkuUser> addSku(Sku sku, long uid) {
         return skuRepository.save(sku)
                 .flatMap(sku1 -> skuUserRepository.save(SkuUser
@@ -46,8 +48,6 @@ public class SkuService {
                                         .enable(sku.getEnable())
                                         .originPrice(sku.getOriginPrice())
                                         .discountPrice(sku.getDiscountPrice())
-                                        .genericSpec(sku.getGenericSpec())
-                                        .specialSpec(sku.getSpecialSpec())
                                         .build()))
                         .collectList()
                 );
@@ -66,8 +66,6 @@ public class SkuService {
                                         .enable(sku.getEnable())
                                         .originPrice(sku.getOriginPrice())
                                         .discountPrice(sku.getDiscountPrice())
-                                        .genericSpec(sku.getGenericSpec())
-                                        .specialSpec(sku.getSpecialSpec())
                                         .build()
                                 )
                         )
@@ -75,6 +73,7 @@ public class SkuService {
                 .collectList();
     }
 
+    @Transactional
     public Mono<Void> deleteSku(long sid) {
         return skuRepository.deleteById(sid);
     }

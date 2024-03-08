@@ -1,5 +1,6 @@
 package com.example.product.service;
 
+import com.alibaba.fastjson.JSONArray;
 import com.example.common.exception.XException;
 import com.example.product.dto.AttributeDTO;
 import com.example.product.po.Attribute;
@@ -10,6 +11,7 @@ import com.example.product.repository.SpuRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -23,14 +25,18 @@ import java.util.List;
 public class AttributeService {
     private final AttributeRepository attributeRepository;
     private final CategoryRepository categoryRepository;
-    private final SpuRepository spuRepository;
 
-    public Mono<Attribute> addAttribute(Attribute attribute) {
-        return attributeRepository.save(attribute);
+    @Transactional
+    public Mono<List<Attribute>> addAttribute(List<Attribute> attributes) {
+        return attributeRepository.saveAll(attributes).collectList();
     }
 
-    public Mono<List<AttributeDTO>> listAttributes() {
-        return attributeRepository.findAll().collectList()
+    public Mono<Integer> getAttributesCount() {
+        return attributeRepository.findCount();
+    }
+
+    public Mono<List<AttributeDTO>> listAttributes(int page, int pageSize) {
+        return attributeRepository.findAll((page - 1) * pageSize, pageSize).collectList()
                 .flatMap(attributes -> Flux.fromIterable(attributes)
                         .flatMap(attribute -> categoryRepository.findById(attribute.getCategoryId())
                                 .map(category -> AttributeDTO.builder()
@@ -46,15 +52,14 @@ public class AttributeService {
                         .collectList());
     }
 
-    public Mono<List<Attribute>> listAttributes(long sid) {
-        return spuRepository.findById(sid)
-                .flatMap(spu -> getAllAttributesByCategoryId(spu.getCategoryId()));
+    public Mono<List<Attribute>> listAttributes(long cid) {
+        return getAllAttributesByCategoryId(cid);
     }
 
-    private Mono<List<Attribute>> getAllAttributesByCategoryId(long categoryId) {
-        return categoryRepository.findById(categoryId)
+    private Mono<List<Attribute>> getAllAttributesByCategoryId(long cid) {
+        return categoryRepository.findById(cid)
                 .flatMap(category -> {
-                    Mono<List<Attribute>> currentAttributes = attributeRepository.findByCategoryId(categoryId).collectList();
+                    Mono<List<Attribute>> currentAttributes = attributeRepository.findByCategoryId(cid).collectList();
                     if (category.getLevel() == Category.FIRST) {
                         // 无父类目，直接返回当前类目属性
                         return currentAttributes;

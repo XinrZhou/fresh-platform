@@ -65,6 +65,8 @@ public class CategoryService {
                         .children(children)
                         .build());
     }
+
+    @Transactional
     public Mono<Void> deleteCategory(long cid) {
         return categoryRepository.findCountByParentId(cid)
                 .filter(c -> c == 0)

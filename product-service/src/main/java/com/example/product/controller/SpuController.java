@@ -30,12 +30,11 @@ public class SpuController {
                 .map(r -> ResultVO.success(Map.of()));
     }
 
-    @GetMapping("/spus")
-    public Mono<ResultVO> getSpus() {
-        return spuService.listSpus()
-                .map(spuDTOS -> ResultVO.success(Map.of("spus", spuDTOS)));
+    @GetMapping("/spu/{cid}")
+    public Mono<ResultVO> getSpuOptions(@PathVariable long cid) {
+        return spuService.listSpuOptions(cid)
+                .map(spus -> ResultVO.success(Map.of("spus", spus)));
     }
-
 
     @GetMapping("/spus/{page}/{pageSize}")
     public Mono<ResultVO> getSpus(@PathVariable int page, @PathVariable int pageSize, ServerHttpRequest request) {

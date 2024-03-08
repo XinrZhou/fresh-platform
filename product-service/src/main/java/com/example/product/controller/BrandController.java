@@ -22,10 +22,11 @@ public class BrandController {
         return brandService.addBrand(brand).map(r -> ResultVO.success(Map.of()));
     }
 
-    @GetMapping("/brands")
-    public Mono<ResultVO> getBrands() {
-        return brandService.listBrands()
-                .map(brands -> ResultVO.success(Map.of("brands", brands)));
+    @GetMapping("/brands/{page}/{pageSize}")
+    public Mono<ResultVO> getBrands(@PathVariable int page, @PathVariable int pageSize) {
+        return brandService.getBrandsCount()
+                .flatMap(total -> brandService.listBrands(page, pageSize)
+                        .map(brands -> ResultVO.success(Map.of("brands", brands, "total", total))));
     }
 
     @GetMapping("/brands/{cid}")

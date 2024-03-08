@@ -14,7 +14,6 @@ public class SpuDTO {
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long id;
     private String name;
-    private String title;
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long categoryId;
     private String categoryName;
@@ -26,4 +25,8 @@ public class SpuDTO {
     // 是否上架 0否 1是
     private Integer saleStatus;
     private String description;
+    // json
+    private String genericSpec;
+    // json
+    private String specialSpec;
 }

@@ -20,6 +20,7 @@ public class AttributeDTO {
     private String name;
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long categoryId;
+    private String categoryIds;
     public String categoryName;
     // 是否为数字类型 0否 1是
     private Integer isNumeric;

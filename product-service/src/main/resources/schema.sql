@@ -51,13 +51,14 @@ create table if not exists `attribute` (
 create table if not exists `spu` (
     id               bigint(19)   not null primary key,
     name             varchar(256) not null,
-    title            varchar(256) not null default '',
     category_id      bigint(19)   not null,
-    brand_id         bigint(19)   not null,
+    brand_id         bigint(19)   null,
     image_url        mediumtext   not null comment '产品主图',
     detail_image_url mediumtext   not null comment '产品详情图',
     sale_status      tinyint(1)   not null default '1' comment '是否上架，0下架，1上架',
     description      text         null,
+    generic_spec     json         null comment '通用规格参数数据',
+    special_spec     json         null comment '特有规格参数及可选值信息',
     insert_time      datetime     not null default current_timestamp,
     update_time      datetime     not null default current_timestamp on update current_timestamp,
 
@@ -81,8 +82,6 @@ create table if not exists `sku`(
     origin_price   decimal(10, 2) not null default '0',
     discount_price decimal(10, 2) not null default '0',
     enable         tinyint(1)     not null default '1' comment '是否有效，0无效，1有效',
-    generic_spec   json           null comment '通用规格参数数据',
-    special_spec   json           null comment '特有规格参数及可选值信息',
     insert_time    datetime       not null default current_timestamp,
     update_time    datetime       not null default current_timestamp on update current_timestamp,
 

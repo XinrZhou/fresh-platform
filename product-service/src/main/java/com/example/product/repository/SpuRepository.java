@@ -15,5 +15,7 @@ public interface SpuRepository extends ReactiveCrudRepository<Spu, Long> {
     @Query("select * from spu order by update_time desc limit :pageSize offset :offset")
     Flux<Spu> findAll(int offset, int pageSize);
 
+    Flux<Spu> findByCategoryId(long cid);
+
     Flux<Spu> findByCategoryIdIn(List<Long> cids);
 }

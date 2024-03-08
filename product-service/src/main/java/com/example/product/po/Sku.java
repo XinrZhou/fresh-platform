@@ -31,10 +31,6 @@ public class Sku {
     private BigDecimal discountPrice;
     // 是否有效 0无效 1有效
     private Integer enable;
-    // json
-    private String genericSpec;
-    // json
-    private String specialSpec;
     @ReadOnlyProperty
     private LocalDateTime insertTime;
     @ReadOnlyProperty

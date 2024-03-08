@@ -8,6 +8,7 @@ import com.example.product.repository.CategoryRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -21,6 +22,7 @@ public class BrandSnapshotService {
     private final CategoryRepository categoryRepository;
     private final UserClient userClient;
 
+    @Transactional
     public Mono<BrandSnapshot> addBrandSnapShot(BrandSnapshot brandSnapshot) {
         return brandSnapshotRepository.save(brandSnapshot);
     }
@@ -69,6 +71,7 @@ public class BrandSnapshotService {
         return brandSnapshotRepository.findCount();
     }
 
+    @Transactional
     public Mono<Void> deleteBrandSnapshot(long bid) {
         return brandSnapshotRepository.deleteById(bid);
     }

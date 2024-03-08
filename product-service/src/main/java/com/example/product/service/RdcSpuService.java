@@ -59,6 +59,7 @@ public class RdcSpuService {
         return rdcSpuRepository.findCount(rid);
     }
 
+    @Transactional
     public Mono<Void> deleteRdcSpu(long rid) {
         return rdcSpuRepository.deleteById(rid).then();
     }
