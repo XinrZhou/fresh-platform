@@ -2,6 +2,7 @@ package com.example.product.service;
 
 import com.example.product.dto.BrandDTO;
 import com.example.product.po.Brand;
+import com.example.product.po.Category;
 import com.example.product.repository.BrandRepository;
 import com.example.product.repository.CategoryRepository;
 import lombok.RequiredArgsConstructor;
@@ -45,7 +46,25 @@ public class BrandService {
     }
 
     public Mono<List<Brand>> listBrands(long cid) {
-        return brandRepository.findByCategoryId(cid).collectList();
+        return getAllBrandsByCategoryId(cid);
+    }
+
+    private Mono<List<Brand>> getAllBrandsByCategoryId(long cid) {
+        return categoryRepository.findById(cid)
+                .flatMap(category -> {
+                    Mono<List<Brand>> currentBrands = brandRepository.findByCategoryId(cid).collectList();
+                    if (category.getLevel() == Category.FIRST) {
+                        // 无父类目，直接返回当前类目属性
+                        return currentBrands;
+                    } else {
+                        // 递归获取父类目品牌，将当前类目品牌与父类目品牌合并
+                        return getAllBrandsByCategoryId(category.getParentId())
+                                .flatMap(parentBrands -> currentBrands.map(current -> {
+                                    parentBrands.addAll(current);
+                                    return parentBrands;
+                                }));
+                    }
+                });
     }
 
     @Transactional

@@ -10,4 +10,6 @@ import reactor.core.publisher.Flux;
 public interface SkuRepository extends ReactiveCrudRepository<Sku, Long> {
     @Query("select * from sku order by update_time desc limit :pageSize offset :offset")
     Flux<Sku> findAll(int offset, int pageSize);
+
+    Flux<Sku> findBySpuId(long sid);
 }

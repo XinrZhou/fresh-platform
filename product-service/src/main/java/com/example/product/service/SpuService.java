@@ -70,7 +70,8 @@ public class SpuService {
                             .brandName(brand.getName())
                             .imageUrl(spu.getImageUrl())
                             .genericSpec(spu.getGenericSpec())
-                            .detailImageUrl(spu.getDetailImageUrl())
+                            .specialSpec(spu.getSpecialSpec())
+                            .tags(spu.getTags())
                             .saleStatus(spu.getSaleStatus())
                             .build();
                 });

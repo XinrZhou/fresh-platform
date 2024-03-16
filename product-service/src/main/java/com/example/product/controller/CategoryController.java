@@ -54,5 +54,4 @@ public class CategoryController {
         return categoryService.deleteCategory(cid)
                 .then(Mono.just(ResultVO.success(Map.of())));
     }
-
 }

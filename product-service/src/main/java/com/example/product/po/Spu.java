@@ -27,10 +27,10 @@ public class Spu {
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long brandId;
     private String imageUrl;
-    private String detailImageUrl;
     // 是否上架 0否 1是
     private Integer saleStatus;
-    private String description;
+    // json
+    private String tags;
     // json
     private String genericSpec;
     // json
