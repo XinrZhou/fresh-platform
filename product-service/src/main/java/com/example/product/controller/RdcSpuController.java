@@ -16,7 +16,6 @@ import java.util.Map;
 @RequestMapping("/rdc_spu")
 public class RdcSpuController {
     private final RdcSpuService rdcSpuService;
-    private final SpuService spuService;
 
     @PostMapping("/rdc_spus")
     public Mono<ResultVO> addProducts(@RequestBody List<RdcSpu> rdcSpus) {

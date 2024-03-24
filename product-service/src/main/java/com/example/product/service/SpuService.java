@@ -51,6 +51,10 @@ public class SpuService {
                 .collectList();
     }
 
+    public Mono<SpuDTO> getSpu(long sid) {
+        return spuRepository.findById(sid).flatMap(this::mapSpuToSpuDTO);
+    }
+
     private Mono<SpuDTO> mapSpuToSpuDTO(Spu spu) {
         Mono<Category> categoryMono = categoryRepository.findById(spu.getCategoryId());
         Mono<Brand> brandMono = spu.getBrandId() != null ?

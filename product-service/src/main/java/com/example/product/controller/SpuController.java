@@ -36,6 +36,12 @@ public class SpuController {
                 .map(spus -> ResultVO.success(Map.of("spus", spus)));
     }
 
+    @GetMapping("/info/{sid}")
+    public Mono<ResultVO> getSpu(@PathVariable long sid) {
+        return spuService.getSpu(sid)
+                .map(spu -> ResultVO.success(Map.of("spus", spu)));
+    }
+
     @GetMapping("/spus/{page}/{pageSize}")
     public Mono<ResultVO> getSpus(@PathVariable int page, @PathVariable int pageSize, ServerHttpRequest request) {
         long uid = decodeUtils.getUserId(request);

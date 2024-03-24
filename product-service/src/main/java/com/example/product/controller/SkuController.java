@@ -30,16 +30,16 @@ public class SkuController {
                 .map(r -> ResultVO.success(Map.of()));
     }
 
-    @GetMapping("/skus/{page}/{pageSize}")
-    private Mono<ResultVO> getSkus(@PathVariable int page, @PathVariable int pageSize, ServerHttpRequest request) {
+    @GetMapping("/skus/{sid}/{page}/{pageSize}")
+    private Mono<ResultVO> getSkus(@PathVariable int page, @PathVariable int pageSize, @PathVariable long sid,  ServerHttpRequest request) {
         long uid = decodeUtils.getUserId(request);
         int role = decodeUtils.getRole(request);
 
         Mono<List<SkuDTO>> skuListM;
         if (role == ADMIN_ROLE) {
-            skuListM = skuService.listSkus(page, pageSize);
+            skuListM = skuService.listSkus(page, pageSize, sid);
         } else {
-            skuListM = skuService.listSkusByUserId(page, pageSize, uid);
+            skuListM = skuService.listSkusByUserId(page, pageSize, uid, sid);
         }
         return skuListM.map(skuDTOs -> ResultVO.success(Map.of("skus", skuDTOs)));
     }

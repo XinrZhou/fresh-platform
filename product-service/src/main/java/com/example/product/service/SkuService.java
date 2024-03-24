@@ -32,32 +32,17 @@ public class SkuService {
                                 .userId(uid)
                                 .build()
                 ));
-//        Mono<Sku> saveSkuMono = skuRepository.save(sku);
-//        Mono<SkuUser> saveSkuUserMono = saveSkuMono.flatMap(savedSku -> skuUserRepository.save(SkuUser.builder()
-//                .userId(uid)
-//                .skuId(savedSku.getId())
-//                .build()));
-//
-//        if (sku.getIsDefault() == DEFAULT) {
-//            return skuRepository.findBySpuId(sku.getSpuId())
-//                    .flatMap(sku1 -> {
-//                        sku1.setIsDefault(0);
-//                        return skuRepository.save(sku1);
-//                    })
-//                    .then(saveSkuUserMono);
-//        } else {
-//            return saveSkuUserMono;
-//        }
     }
-    public Mono<List<SkuDTO>> listSkus(int page, int pageSize) {
-        return skuRepository.findAll((page - 1) * pageSize, pageSize)
+    public Mono<List<SkuDTO>> listSkus(int page, int pageSize, long sid) {
+        return skuRepository.findAll((page - 1) * pageSize, pageSize, sid)
                 .collectList()
                 .flatMap(this::mapSkusToDTO);
     }
 
-    public Mono<List<SkuDTO>> listSkusByUserId(int page, int pageSize, long uid) {
+    public Mono<List<SkuDTO>> listSkusByUserId(int page, int pageSize, long uid, long sid) {
         return skuUserRepository.findByUserId((page - 1) * pageSize, pageSize, uid)
                 .flatMap(skuUser -> skuRepository.findById(skuUser.getSkuId()))
+                .filter(sku -> sku.getSpuId() == sid)
                 .collectList()
                 .flatMap(this::mapSkusToDTO);
     }
