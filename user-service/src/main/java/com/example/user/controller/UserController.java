@@ -64,4 +64,17 @@ public class UserController {
     public Mono<User> getInfo(@PathVariable long uid) {
         return userService.getUser(uid);
     }
+
+    @PostMapping("/info")
+    public Mono<ResultVO> postUser(@RequestBody User user) {
+        return userService.updateUser(user).map(user1 -> ResultVO.success(Map.of()));
+    }
+
+    @PutMapping("/password/{pwd}")
+    public Mono<ResultVO> putPassword(@PathVariable String pwd, ServerHttpRequest request) {
+        String token = request.getHeaders().getFirst(RequestAttributeConstant.TOKEN);
+        DecodedJWT decode = jwtUtils.decode(token);
+        return userService.updatePassword(decode.getClaim(RequestAttributeConstant.UID).asLong(), pwd)
+                .then(Mono.just(ResultVO.success(Map.of())));
+    }
 }

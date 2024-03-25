@@ -53,7 +53,7 @@ create table if not exists `spu` (
     name             varchar(256) not null,
     category_id      bigint(19)   not null,
     brand_id         bigint(19)   null,
-    image_url        mediumtext   not null comment 'SKU图片',
+    image_url        mediumtext   null comment 'SKU图片',
     sale_status      tinyint(1)   not null default '1' comment '是否上架，0下架，1上架',
     tags             json         null comment '产品标签',
     generic_spec     json         null comment '通用规格参数数据',
