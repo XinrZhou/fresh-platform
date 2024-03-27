@@ -16,6 +16,7 @@
         <module>oss-service</module>
         <module>feign-api</module>
         <module>aigc-service</module>
+        <module>page-service</module>
     </modules>
     <groupId>com.example</groupId>
     <artifactId>fresh-platform</artifactId>

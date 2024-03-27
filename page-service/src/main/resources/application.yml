@@ -1,0 +1,34 @@
+server:
+  port: 8087
+spring:
+  application:
+    name: page-service
+  cloud:
+    nacos:
+      server-addr: 124.223.175.150:8848
+  r2dbc:
+    url: r2dbcs:mysql://124.223.175.150:3309/page-service?serverTimezone=Asia/Shanghai
+    username: root
+    password: 1157
+    pool:
+      enabled: true
+      initial-size: 1
+      validation-query: select 1
+      max-life-time: 30000
+
+  jackson:
+    default-property-inclusion: non_null
+
+logging:
+  level:
+    root: info
+    com:
+      example: debug
+    org:
+      springframework:
+        r2dbc: debug
+  pattern:
+    console: '%-5level %C.%M[%line] - %msg%n'
+
+my:
+  secretKey: dldkshfpojoi42zxr

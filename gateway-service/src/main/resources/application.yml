@@ -29,6 +29,10 @@ spring:
           uri: lb://aigc-service
           predicates:
             - Path=/ai/**, /resource/**, /model/**, /cdp/**
+        - id: page-service
+          uri: lb://page-service
+          predicates:
+            - Path=/page/**
   data:
     redis:
       host: 124.223.175.150
