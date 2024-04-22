@@ -10,4 +10,6 @@ import reactor.core.publisher.Flux;
 public interface SkuUserRepository extends ReactiveCrudRepository<SkuUser, Long> {
     @Query("select * from sku_user s where s.user_id=:uid order by update_time desc limit :pageSize offset :offset")
     Flux<SkuUser> findByUserId(int offset, int pageSize, long uid);
+
+    Flux<SkuUser> findByUserId(long uid);
 }

@@ -71,4 +71,8 @@ public class SkuService {
     public Mono<Void> deleteSku(long sid) {
         return skuRepository.deleteById(sid);
     }
+
+    public Mono<List<SkuUser>> listSkus(long uid) {
+        return skuUserRepository.findByUserId(uid).collectList();
+    }
 }

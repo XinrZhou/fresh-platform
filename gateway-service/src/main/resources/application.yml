@@ -33,6 +33,10 @@ spring:
           uri: lb://page-service
           predicates:
             - Path=/page/**
+        - id: order-service
+          uri: lb://order-service
+          predicates:
+            - Path=/order/**
   data:
     redis:
       host: 124.223.175.150

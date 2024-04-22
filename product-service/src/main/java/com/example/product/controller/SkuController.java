@@ -4,6 +4,7 @@ import com.example.common.vo.ResultVO;
 import com.example.product.dto.SkuDTO;
 import com.example.product.dto.SpuDTO;
 import com.example.product.po.Sku;
+import com.example.product.po.SkuUser;
 import com.example.product.service.SkuService;
 import com.example.product.utils.DecodeUtils;
 import io.swagger.annotations.Api;
@@ -48,5 +49,10 @@ public class SkuController {
     private Mono<ResultVO> deleteSku(@PathVariable long sid) {
         return skuService.deleteSku(sid)
                 .then(Mono.just(ResultVO.success(Map.of())));
+    }
+
+    @GetMapping("/order/{uid}")
+    private Mono<List<SkuUser>> getSkus(@PathVariable long uid) {
+        return skuService.listSkus(uid);
     }
 }
