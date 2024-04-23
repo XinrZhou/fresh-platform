@@ -1,4 +1,4 @@
-package com.example.pageservice.config;
+package com.example.configuration.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

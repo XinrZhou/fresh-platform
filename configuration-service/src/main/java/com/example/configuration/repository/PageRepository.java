@@ -1,6 +1,6 @@
-package com.example.pageservice.repository;
+package com.example.configuration.repository;
 
-import com.example.pageservice.po.Page;
+import com.example.configuration.po.Page;
 import org.springframework.data.repository.reactive.ReactiveCrudRepository;
 import org.springframework.stereotype.Repository;
 import reactor.core.publisher.Mono;

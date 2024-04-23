@@ -1,8 +1,8 @@
-package com.example.pageservice.controller;
+package com.example.configuration.controller;
 
 import com.example.common.vo.ResultVO;
-import com.example.pageservice.po.Page;
-import com.example.pageservice.service.PageService;
+import com.example.configuration.po.Page;
+import com.example.configuration.service.PageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;

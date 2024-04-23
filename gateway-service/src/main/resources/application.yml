@@ -29,10 +29,10 @@ spring:
           uri: lb://aigc-service
           predicates:
             - Path=/ai/**, /resource/**, /model/**, /cdp/**
-        - id: page-service
-          uri: lb://page-service
+        - id: configuration-service
+          uri: lb://configuration-service
           predicates:
-            - Path=/page/**
+            - Path=/page/**, /marketing/**
         - id: order-service
           uri: lb://order-service
           predicates:

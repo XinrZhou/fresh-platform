@@ -1,4 +1,4 @@
-package com.example.pageservice.po;
+package com.example.configuration.po;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;

@@ -1,13 +1,13 @@
-package com.example.pageservice;
+package com.example.configuration;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class PageServiceApplication {
+public class ConfigurationServiceApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(PageServiceApplication.class, args);
+        SpringApplication.run(ConfigurationServiceApplication.class, args);
     }
 
 }

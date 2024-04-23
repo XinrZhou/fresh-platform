@@ -1,7 +1,7 @@
-package com.example.pageservice.service;
+package com.example.configuration.service;
 
-import com.example.pageservice.po.Page;
-import com.example.pageservice.repository.PageRepository;
+import com.example.configuration.po.Page;
+import com.example.configuration.repository.PageRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

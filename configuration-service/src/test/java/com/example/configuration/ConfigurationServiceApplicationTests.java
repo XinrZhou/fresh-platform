@@ -1,10 +1,10 @@
-package com.example.pageservice;
+package com.example.configuration;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class PageServiceApplicationTests {
+class ConfigurationServiceApplicationTests {
 
     @Test
     void contextLoads() {
