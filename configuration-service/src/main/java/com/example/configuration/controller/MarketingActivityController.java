@@ -10,7 +10,7 @@ import reactor.core.publisher.Mono;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/marketing")
+@RequestMapping("/activity")
 @RequiredArgsConstructor
 public class MarketingActivityController {
     private final MarketingActivityService marketingActivityService;

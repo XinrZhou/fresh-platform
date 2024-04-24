@@ -26,7 +26,7 @@ create table if not exists `brand` (
 create table if not exists `brand_snapshot` (
     id          bigint(19)   not null primary key,
     name        varchar(128) not null,
-    user_id      bigint(19)  not null,
+    user_id     bigint(19)  not null,
     category_id bigint(19)   not null,
     status      tinyint(1)   not null default 0 comment '审核状态，0审核中，1审核通过，2审核拒绝',
     reason      varchar(255) null,

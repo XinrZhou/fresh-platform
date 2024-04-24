@@ -32,7 +32,7 @@ spring:
         - id: configuration-service
           uri: lb://configuration-service
           predicates:
-            - Path=/page/**, /marketing/**
+            - Path=/page/**, /activity/**, /advertisement/**
         - id: order-service
           uri: lb://order-service
           predicates:
