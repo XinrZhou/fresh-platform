@@ -1,0 +1,133 @@
+@startuml
+
+package "Controllers" {
+    class SkuController {
+        - final SkuService skuService
+        - final DecodeUtils decodeUtils
+        - final int ADMIN_ROLE = 10
+        + postSku(sku: Sku, request: ServerHttpRequest): Mono<ResultVO>
+        + getSkus(page: int, pageSize: int, sid: long, request: ServerHttpRequest): Mono<ResultVO>
+        + deleteSku(sid: long): Mono<ResultVO>
+        + getSkus(uid: long): Mono<List<SkuUser>>
+    }
+
+    class SpuController {
+        - final SpuService spuService
+        - final DecodeUtils decodeUtils
+        - final int ADMIN_ROLE = 10
+        + postSpu(spu: Spu, request: ServerHttpRequest): Mono<ResultVO>
+        + getSpuOptions(cid: long): Mono<ResultVO>
+        + getSpu(sid: long): Mono<ResultVO>
+        + getSpus(page: int, pageSize: int, request: ServerHttpRequest): Mono<ResultVO>
+        + getSpus(cid: long): Mono<ResultVO>
+        + deleteSpu(sid: long): Mono<ResultVO>
+    }
+}
+
+class Sku {
+    - id: Long
+    - spuId: Long
+    - name: String
+    - imageUrl: String
+    - detailImageUrl: String
+    - stock: Integer
+    - originPrice: BigDecimal
+    - discountPrice: BigDecimal
+    - unit: String
+    - description: String
+    - enable: Integer
+    - insertTime: LocalDateTime
+    - updateTime: LocalDateTime
+}
+
+class SkuUser {
+    - id: Long
+    - userId: Long
+    - skuId: Long
+    - insertTime: LocalDateTime
+    - updateTime: LocalDateTime
+}
+
+class Spu {
+    - id: Long
+    - name: String
+    - categoryId: Long
+    - brandId: Long
+    - imageUrl: String
+    - saleStatus: Integer
+    - tags: String
+    - genericSpec: String
+    - specialSpec: String
+    - insertTime: LocalDateTime
+    - updateTime: LocalDateTime
+}
+
+class SpuUser {
+    - id: Long
+    - userId: Long
+    - spuId: Long
+    - insertTime: LocalDateTime
+    - updateTime: LocalDateTime
+}
+
+interface SkuRepository {
+    + findAll(offset: int, pageSize: int, sid: long): Flux<Sku>
+}
+
+interface SkuUserRepository {
+    + findByUserId(offset: int, pageSize: int, uid: long): Flux<SkuUser>
+    + findByUserId(uid: long): Flux<SkuUser>
+}
+
+interface SpuRepository {
+    + findAll(offset: int, pageSize: int): Flux<Spu>
+    + findByCategoryId(cid: long): Flux<Spu>
+    + findByCategoryIdIn(cids: List<Long>): Flux<Spu>
+}
+
+interface SpuUserRepository {
+    + findByUserId(offset: int, pageSize: int, uid: long): Flux<SpuUser>
+}
+
+class SkuService {
+    - final SkuRepository skuRepository
+    - final SkuUserRepository skuUserRepository
+    - final SpuRepository spuRepository
+    + addSku(sku: Sku, uid: long): Mono<SkuUser>
+    + listSkus(page: int, pageSize: int, sid: long): Mono<List<SkuDTO>>
+    + listSkusByUserId(page: int, pageSize: int, uid: long, sid: long): Mono<List<SkuDTO>>
+    + deleteSku(sid: long): Mono<Void>
+    + listSkus(uid: long): Mono<List<SkuUser>>
+}
+
+class SpuService {
+    - final SpuRepository spuRepository
+    - final SpuUserRepository spuUserRepository
+    - final CategoryRepository categoryRepository
+    - final BrandRepository brandRepository
+    + addSpu(spu: Spu, uid: long): Mono<SpuUser>
+    + listSpuOptions(cid: long): Mono<List<Spu>>
+    + getSpu(sid: long): Mono<SpuDTO>
+    + listSpus(page: int, pageSize: int): Mono<List<SpuDTO>>
+    + listSpusByUserId(page: int, pageSize: int, uid: long): Mono<List<SpuDTO>>
+    + listSpus(cid: long): Mono<List<SpuDTO>>
+    + deleteSpu(sid: long): Mono<Void>
+}
+
+
+SkuController --> SkuService: "依赖/注入"
+SkuController --> DecodeUtils: "依赖/注入"
+SpuController --> SpuService: "依赖/注入"
+SpuController --> DecodeUtils: "依赖/注入"
+SkuService --> SkuRepository: "依赖/注入"
+SkuService --> SkuUserRepository: "依赖/注入"
+SkuService --> SpuRepository: "依赖/注入"
+SpuService --> SpuRepository: "依赖/注入"
+SpuService --> SpuUserRepository: "依赖/注入"
+SpuService --> CategoryRepository: "依赖/注入"
+SpuService --> BrandRepository: "依赖/注入"
+SpuRepository <--o Spu : Manages
+SkuRepository <--o Sku : Manages
+SpuUserRepository <--o SpuUser : Manages
+SkuUserRepository <--o SkuUser : Manages
+@enduml

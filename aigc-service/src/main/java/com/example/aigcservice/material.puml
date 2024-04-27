@@ -1,0 +1,61 @@
+@startuml
+
+class AiController {
+    - apiKey: String
+    - final Generation generation
+    - final ImageGenerationService imageGenerationService
+    + postAiPainting(textToImageRequest: TextToImageRequest): Mono<ResultVO>
+    + aiTalk(question: String): Flux<ServerSentEvent<String>>
+}
+
+class ImageGenerationService {
+    - secretId: String
+    - secretKey: String
+    + addAiPainting(textToImageRequest: TextToImageRequest): TextToImageResponse
+}
+
+class ImageController {
+    - imageService: ImageService
+    - jwtUtils: JwtUtils
+    + postImage(image: Image): Mono<ResultVO>
+    + getImages(page: int, pageSize: int, request: ServerHttpRequest): Mono<ResultVO>
+    + deleteImages(id: long): Mono<ResultVO>
+}
+
+class Image {
+    - id: Long
+    - userId: Long
+    - prompt: String
+    - imageUrl: String
+    - insertTime: LocalDateTime
+    - updateTime: LocalDateTime
+}
+interface ImageRepository {
+    + findByUserId(offset: int, pageSize: int, uid: long): Flux<Image>
+    + findCount(uid: long): Mono<Integer>
+}
+
+class ImageService {
+    - final ImageRepository imageRepository
+    + addImage(image: Image): Mono<Image>
+    + listImages(uid: long, page: int, pageSize: int): Mono<List<Image>>
+    + getImagesCount(uid: long): Mono<Integer>
+    + deleteImage(id: long): Mono<Void>
+}
+
+class JwtUtils {
+    - secretkey: String
+    + encode(map: Map<String, Object>): String
+    + decode(token: String): DecodedJWT
+}
+
+AiController --> Generation: "依赖/注入"
+AiController --> ImageGenerationService: "依赖/注入"
+ImageController --> ImageService: "依赖/注入"
+ImageController --> JwtUtils: "依赖/注入"
+ImageService --> ImageRepository: "依赖/注入"
+ImageGenerationService --> TextToImageRequest
+ImageGenerationService --> TextToImageResponse
+ImageRepository <--o Image : Manages
+
+@enduml

@@ -1,0 +1,107 @@
+@startuml
+
+class BrandController {
+    - brandService: BrandService
+    + postBrand(brand: Brand): Mono<ResultVO>
+    + getBrands(page: int, pageSize: int): Mono<ResultVO>
+    + getBrands(cid: long): Mono<ResultVO>
+    + deleteBrand(bid: long): Mono<ResultVO>
+}
+
+class BrandSnapshotController {
+    - brandSnapshotService: BrandSnapshotService
+    + postBrandSnapshot(brandSnapshot: BrandSnapshot): Mono<ResultVO>
+    + getBrandSnapshots(page: int, pageSize: int): Mono<ResultVO>
+    + getBrandSnapshots(uid: long, page: int, pageSize: int): Mono<ResultVO>
+    + deleteBrandSnapshot(bid: long): Mono<ResultVO>
+}
+
+class Brand {
+    - id: Long
+    - name: String
+    - categoryId: Long
+    - status: Integer
+    - insertTime: LocalDateTime
+    - updateTime: LocalDateTime
+}
+
+class BrandSnapshot {
+    - id: Long
+    - userId: Long
+    - name: String
+    - categoryId: Long
+    - status: Integer
+    - reason: String
+    - insertTime: LocalDateTime
+    - updateTime: LocalDateTime
+}
+
+class Category {
+    - id : Long
+    - name : String
+    - imageUrl : String
+    - parentId : Long
+    - level : Integer
+    - status : Integer
+    - insertTime : LocalDateTime
+    - updateTime : LocalDateTime
+}
+
+
+interface BrandRepository {
+    + findAll(offset: int, pageSize: int): Flux<Brand>
+    + findByCategoryId(cid: long): Flux<Brand>
+    + findCount(): Mono<Integer>
+}
+
+interface BrandSnapshotRepository {
+    + findAll(offset: int, pageSize: int): Flux<BrandSnapshot>
+    + findByUserId(offset: int, pageSize: int, uid: long): Flux<BrandSnapshot>
+    + findCount(): Mono<Integer>
+}
+
+interface CategoryRepository {
+    + findAll() : Flux<Category>
+    + findAll(offset: int, pageSize: int) : Flux<Category>
+    + findCount() : Mono<Integer>
+    + findCount(uid: long) : Mono<Integer>
+    + findCountByParentId(pid: long) : Mono<Integer>
+    + findByParentId(pid: long, offset: int, pageSize: int) : Flux<Category>
+    + findByParentId(pid: long) : Flux<Category>
+    + findByLevel(level: int) : Flux<Category>
+}
+
+class BrandService {
+    - brandRepository: BrandRepository
+    - categoryRepository: CategoryRepository
+    + addBrand(brand: Brand): Mono<Brand>
+    + getBrandsCount(): Mono<Integer>
+    + listBrands(page: int, pageSize: int): Mono<List<Brand>>
+    + listBrands(cid: long): Mono<List<Brand>>
+    + deleteBrand(bid: long): Mono<Void>
+    - getAllBrandsByCategoryId(cid: long): Mono<List<Brand>>
+}
+
+class BrandSnapshotService {
+    - brandSnapshotRepository: BrandSnapshotRepository
+    - categoryRepository: CategoryRepository
+    - userClient: UserClient
+    + addBrandSnapShot(brandSnapshot: BrandSnapshot): Mono<BrandSnapshot>
+    + listBrandSnapshots(page: int, pageSize: int): Mono<List<BrandSnapshot>>
+    + listBrandSnapshots(page: int, pageSize: int, uid: long): Mono<List<BrandSnapshot>>
+    + getBrandsSnapshotCount(): Mono<Integer>
+    + deleteBrandSnapshot(bid: long): Mono<Void>
+}
+
+BrandController --> BrandService
+BrandSnapshotController --> BrandSnapshotService
+BrandService --> BrandRepository
+BrandService --> CategoryRepository
+BrandSnapshotService --> BrandSnapshotRepository
+BrandSnapshotService --> CategoryRepository
+BrandSnapshotService --> UserClient
+BrandRepository <--o Brand
+BrandSnapshotRepository <--o BrandSnapshot
+CategoryRepository <--o Category
+
+@enduml
