@@ -52,7 +52,32 @@ public class SkuController {
     }
 
     @GetMapping("/order/{uid}")
-    private Mono<List<SkuUser>> getSkus(@PathVariable long uid) {
-        return skuService.listSkus(uid);
+    private Mono<List<SkuUser>> getSkuUsers(@PathVariable long uid) {
+        return skuService.listSkuUsers(uid);
+    }
+
+    @GetMapping("/skus/{page}/{pageSize}")
+    public Mono<ResultVO> getSkus(@PathVariable int page, @PathVariable int pageSize) {
+        return skuService.listSkus(page, pageSize)
+                .map(skus -> ResultVO.success(Map.of("skus", skus)));
+
+    }
+
+    @GetMapping("/skus/{cid}")
+    public Mono<ResultVO> getSkus(@PathVariable long cid) {
+        return skuService.listSkus(cid)
+                .map(skuList-> ResultVO.success(Map.of("skus", skuList)));
+    }
+
+    @GetMapping("/detail/{sid}")
+    public Mono<ResultVO> getSkuDTO(@PathVariable long sid) {
+        return skuService.getSkuDTO(sid)
+                .flatMap(skuDTO -> skuService.listSku(sid)
+                        .map(skus ->  ResultVO.success(Map.of("skus", skuDTO , "skuList", skus))));
+    }
+
+    @GetMapping("/sku/{sid}")
+    public Mono<Sku> getSku(@PathVariable long sid) {
+        return skuService.getSku(sid);
     }
 }

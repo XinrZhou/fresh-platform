@@ -1,4 +1,4 @@
-package com.example.user.po;
+package com.example.orderservice.po;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
@@ -15,20 +15,20 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Image {
+public class Cart {
+    public static final int UNSETTLED = 0;
+    public static final int SETTLED = 1;
     @Id
     @CreatedBy
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long id;
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long userId;
-    private String imageUrl;
-    private String prompt;
-    private String negativePrompt;
-    private String samplerName;
-    private Integer seed;
-    private Integer cfgScale;
-    private Integer steps;
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
+    private Long skuId;
+    private int count;
+    // 购物车商品状态 0未结算 1已结算
+    private int type;
     @ReadOnlyProperty
     private LocalDateTime insertTime;
     @ReadOnlyProperty

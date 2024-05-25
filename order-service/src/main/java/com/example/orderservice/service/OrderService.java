@@ -1,7 +1,9 @@
 package com.example.orderservice.service;
 
-import com.example.feignapi.client.SkuClient;
+import com.example.feignapi.client.ProductClient;
 import com.example.orderservice.po.OrderSku;
+import com.example.orderservice.po.Order;
+import com.example.orderservice.repository.OrderRepository;
 import com.example.orderservice.repository.OrderSkuRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,13 +17,18 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 public class OrderService {
+    private final OrderRepository orderRepository;
     private final OrderSkuRepository orderSkuRepository;
-    private final SkuClient skuClient;
+    private final ProductClient productClient;
 
     public Mono<List<OrderSku>> listOrders(long uid) {
-        return skuClient.getSkus(uid)
+        return productClient.getSkus(uid)
                 .flatMap(skuUsers -> Flux.fromIterable(skuUsers)
                         .flatMap(skuUser -> orderSkuRepository.findBySkuId(skuUser.getSkuId()))
                         .collectList());
+    }
+
+    public Mono<Order> addOrder(Order order) {
+        return orderRepository.save(order);
     }
 }

@@ -54,4 +54,11 @@ public class CategoryController {
         return categoryService.deleteCategory(cid)
                 .then(Mono.just(ResultVO.success(Map.of())));
     }
+
+
+    @GetMapping("/category/{pid}")
+    public Mono<ResultVO> getCategories(@PathVariable long pid) {
+        return categoryService.listCategories(pid)
+                .map(categories -> ResultVO.success(Map.of("categories", categories)));
+    }
 }

@@ -31,4 +31,6 @@ public interface CategoryRepository extends ReactiveCrudRepository<Category, Lon
     Flux<Category> findByParentId(long pid);
 
     Flux<Category> findByLevel(int level);
+
+    Flux<Category> findByParentIdOrderByInsertTime(long pid);
 }

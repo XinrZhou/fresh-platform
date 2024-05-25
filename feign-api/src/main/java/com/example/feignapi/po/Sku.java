@@ -1,4 +1,4 @@
-package com.example.user.po;
+package com.example.feignapi.po;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
@@ -9,26 +9,31 @@ import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.ReadOnlyProperty;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
+
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Image {
+public class Sku {
     @Id
     @CreatedBy
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long id;
     @JsonFormat(shape = JsonFormat.Shape.STRING)
-    private Long userId;
+    private Long spuId;
+    private String name;
     private String imageUrl;
-    private String prompt;
-    private String negativePrompt;
-    private String samplerName;
-    private Integer seed;
-    private Integer cfgScale;
-    private Integer steps;
+    private String detailImageUrl;
+    private Integer stock;
+    private BigDecimal originPrice;
+    private BigDecimal discountPrice;
+    private String unit;
+    private String description;
+    // 是否有效 0无效 1有效
+    private Integer enable;
     @ReadOnlyProperty
     private LocalDateTime insertTime;
     @ReadOnlyProperty

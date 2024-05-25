@@ -72,7 +72,63 @@ public class SkuService {
         return skuRepository.deleteById(sid);
     }
 
-    public Mono<List<SkuUser>> listSkus(long uid) {
+    public Mono<List<SkuUser>> listSkuUsers(long uid) {
         return skuUserRepository.findByUserId(uid).collectList();
+    }
+
+    public Mono<Sku> getSku(long sid) {
+        return skuRepository.findById(sid);
+    }
+
+    private Mono<SkuDTO> mapToSkuDTO(Sku sku) {
+        return spuRepository.findById(sku.getSpuId())
+                .map(spu -> SkuDTO.builder()
+                        .id(sku.getId())
+                        .spuName(spu.getName())
+                        .name(sku.getName())
+                        .imageUrl(sku.getImageUrl())
+                        .detailImageUrl(sku.getDetailImageUrl())
+                        .description(sku.getDescription())
+                        .unit(sku.getUnit())
+                        .originPrice(sku.getOriginPrice())
+                        .discountPrice(sku.getDiscountPrice())
+                        .tags(spu.getTags())
+                        .genericSpec(spu.getGenericSpec())
+                        .specialSpec(spu.getSpecialSpec())
+                        .build());
+    }
+
+    public Mono<List<SkuDTO>> listSkus(int page, int pageSize) {
+        return skuRepository.findAll((page - 1) * pageSize, pageSize)
+                .flatMap(this::mapToSkuDTO)
+                .collectList();
+    }
+
+    public Mono<List<SkuDTO>> listSkus(long cid) {
+        return spuRepository.findByCategoryId(cid)
+                .flatMap(spu -> skuRepository.findBySpuId(spu.getId())
+                        .map(sku -> SkuDTO.builder()
+                                .id(sku.getId())
+                                .spuName(spu.getName())
+                                .name(sku.getName())
+                                .imageUrl(sku.getImageUrl())
+                                .tags(spu.getTags())
+                                .specialSpec(spu.getSpecialSpec())
+                                .originPrice(sku.getOriginPrice())
+                                .discountPrice(sku.getDiscountPrice())
+                                .unit(sku.getUnit())
+                                .build()))
+                .collectList();
+    }
+
+    public Mono<List<Sku>> listSku(long sid) {
+        return skuRepository.findById(sid)
+                .flatMap(sku -> skuRepository.findBySpuId(sku.getSpuId())
+                        .collectList());
+    }
+
+    public Mono<SkuDTO> getSkuDTO(long sid) {
+        return skuRepository.findById(sid)
+                .flatMap(this::mapToSkuDTO);
     }
 }

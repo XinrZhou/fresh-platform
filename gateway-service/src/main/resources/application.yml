@@ -36,7 +36,7 @@ spring:
         - id: order-service
           uri: lb://order-service
           predicates:
-            - Path=/order/**
+            - Path=/order/**, /cart/**
   data:
     redis:
       host: 124.223.175.150

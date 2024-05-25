@@ -1,4 +1,4 @@
-package com.example.product.dto;
+package com.example.orderservice.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
@@ -12,26 +12,17 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class SkuDTO {
+public class CartDTO {
     @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long id;
     @JsonFormat(shape = JsonFormat.Shape.STRING)
-    private Long spuId;
-    private String spuName;
-    private String name;
+    private Long userId;
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
+    private Long skuId;
+    private int count;
+    private String skuName;
     private String imageUrl;
-    private String detailImageUrl;
-    private Integer stock;
     private BigDecimal originPrice;
     private BigDecimal discountPrice;
     private String unit;
-    private String description;
-    // 是否有效 0无效 1有效
-    private Integer enable;
-    // json
-    private String tags;
-    // json
-    private String genericSpec;
-    // json
-    private String specialSpec;
 }

@@ -36,6 +36,7 @@ public class CategoryService {
         return categoryRepository.findByLevel(level).collectList();
     }
 
+
     public Mono<List<Category>> listCategories(int page, int pageSize) {
         return categoryRepository.findAll((page-1)*pageSize, pageSize).collectList();
     }
@@ -73,5 +74,9 @@ public class CategoryService {
                 .switchIfEmpty(Mono.error(new XException(XException.BAD_REQUEST, "存在子类目，无法删除")))
                 .flatMap(c -> categoryRepository.deleteById(cid))
                 .then();
+    }
+
+    public Mono<List<Category>> listCategories(long pid) {
+        return categoryRepository.findByParentIdOrderByInsertTime(pid).collectList();
     }
 }
