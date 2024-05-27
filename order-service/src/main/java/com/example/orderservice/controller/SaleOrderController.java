@@ -1,9 +1,9 @@
 package com.example.orderservice.controller;
 
 import com.example.common.vo.ResultVO;
-import com.example.orderservice.po.Order;
+import com.example.orderservice.po.SaleOrder;
 import com.example.orderservice.service.CartService;
-import com.example.orderservice.service.OrderService;
+import com.example.orderservice.service.SaleOrderService;
 import com.example.orderservice.utils.DecodeUtils;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -23,24 +23,24 @@ import java.util.Map;
 @RequestMapping("/order")
 @Slf4j
 @RequiredArgsConstructor
-public class OrderController {
-    private final OrderService orderService;
+public class SaleOrderController {
+    private final SaleOrderService saleOrderService;
     private final DecodeUtils decodeUtils;
     private final CartService cartService;
     private final ObjectMapper objectMapper;
 
     @GetMapping("/orders")
     public Mono<ResultVO> getOrders(ServerHttpRequest request) {
-        return orderService.listOrders(decodeUtils.getUserId(request))
+        return saleOrderService.listOrders(decodeUtils.getUserId(request))
                 .map(orderSkus -> ResultVO.success(Map.of("orders", orderSkus)));
     }
 
     @PostMapping("/orders")
-    public Mono<ResultVO> postOrder(@RequestBody Order order) {
-        return orderService.addOrder(order)
-                .flatMap(savedOrder -> {
+    public Mono<ResultVO> postOrder(@RequestBody SaleOrder saleOrder) {
+        return saleOrderService.addOrder(saleOrder)
+                .flatMap(savedSaleOrder -> {
                     // Extract cart IDs from the orderSpec JSON string
-                    List<Long> cartIds = extractCartIdsFromOrderSpec(savedOrder.getOrderSpec());
+                    List<Long> cartIds = extractCartIdsFromOrderSpec(savedSaleOrder.getOrderSpec());
                     // Update cart status
                     return cartService.deleteByIds(cartIds)
                             .then(Mono.just(ResultVO.success(Map.of())));

@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class Order {
+public class SaleOrder {
     public static final int OBLIGATION = 0;
     public static final int TO_BE_SHIPPED = 1;
     public static final int TO_BE_RECEIVED = 2;

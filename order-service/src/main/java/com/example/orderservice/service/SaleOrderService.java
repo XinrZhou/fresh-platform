@@ -2,8 +2,8 @@ package com.example.orderservice.service;
 
 import com.example.feignapi.client.ProductClient;
 import com.example.orderservice.po.OrderSku;
-import com.example.orderservice.po.Order;
-import com.example.orderservice.repository.OrderRepository;
+import com.example.orderservice.po.SaleOrder;
+import com.example.orderservice.repository.SaleOrderRepository;
 import com.example.orderservice.repository.OrderSkuRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,8 +16,8 @@ import java.util.List;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class OrderService {
-    private final OrderRepository orderRepository;
+public class SaleOrderService {
+    private final SaleOrderRepository saleOrderRepository;
     private final OrderSkuRepository orderSkuRepository;
     private final ProductClient productClient;
 
@@ -28,7 +28,7 @@ public class OrderService {
                         .collectList());
     }
 
-    public Mono<Order> addOrder(Order order) {
-        return orderRepository.save(order);
+    public Mono<SaleOrder> addOrder(SaleOrder saleOrder) {
+        return saleOrderRepository.save(saleOrder);
     }
 }
